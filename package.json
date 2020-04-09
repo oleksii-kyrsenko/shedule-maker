@@ -1,5 +1,5 @@
 {
-  "name": "user-auth-template-restapi",
+  "name": "shedule-maker",
   "version": "1.0.0",
   "description": "User authentication template using React, React-redux, Redux-saga, Node.js, Express, MongoDB, Mongoose, JWT, Material UI",
   "main": "server.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/oleksii-kyrsenko/user-auth-template-restapi.git"
+    "url": "git+https://github.com/oleksii-kyrsenko/shedule-maker.git"
   },
   "keywords": [
     "React",
@@ -28,9 +28,9 @@
   "author": "Oleksii Kyrsenko",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/oleksii-kyrsenko/user-auth-template-restapi/issues"
+    "url": "https://github.com/oleksii-kyrsenko/shedule-maker/issues"
   },
-  "homepage": "https://github.com/oleksii-kyrsenko/user-auth-template-restapi#readme",
+  "homepage": "https://github.com/oleksii-kyrsenko/shedule-maker#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "concurrently": "^5.1.0",

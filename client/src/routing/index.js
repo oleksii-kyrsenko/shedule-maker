@@ -1,14 +1,19 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { Auth } from '../pages';
 import { PrivateRoute } from './PrivateRoute';
-import { PrivatePage } from '../pages';
+import { Groups, NotFound } from '../pages';
 
 export const Routes = () => {
 	return (
 		<Switch>
-			<PrivateRoute exact path="/" component={PrivatePage} />
+			<Route exact path="/">
+				<Redirect to="/groups" />
+			</Route>
 			<Route exact path="/login" component={Auth} />
+
+			<PrivateRoute exact path="/groups" component={Groups} />
+			<PrivateRoute exact path="*" component={NotFound} />
 		</Switch>
 	);
 };

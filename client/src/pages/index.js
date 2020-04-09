@@ -1,2 +1,3 @@
 export { Auth } from './Auth';
-export { PrivatePage } from './PrivatePage';
+export { Groups } from './Groups';
+export { NotFound } from './NotFound';

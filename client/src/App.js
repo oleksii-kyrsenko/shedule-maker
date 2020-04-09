@@ -7,7 +7,7 @@ import { ToastContainer } from 'react-toastify';
 
 import { fetchAuthUser } from './pages/Auth/routines';
 import { setAuthToken } from './helpers/setAuthToken';
-import { Preloader, Notify } from './commons';
+import { Preloader, Notify, Navbar } from './commons';
 
 const App = () => {
 	useEffect(() => {
@@ -19,6 +19,7 @@ const App = () => {
 	return (
 		<Provider store={store}>
 			<Router>
+				<Navbar />
 				<Preloader />
 				<Notify />
 				<Route component={Routes} />

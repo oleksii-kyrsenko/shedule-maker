@@ -1,4 +1,5 @@
 import { authUser, fetchAuthUser, createUser } from './routines';
+import { logoutUser } from '../../commons/routines';
 
 const initialState = {
 	user: null,
@@ -20,6 +21,7 @@ export const authReducer = (state = initialState, action) => {
 		case authUser.FAILURE:
 		case fetchAuthUser.FAILURE:
 		case createUser.FAILURE:
+		case logoutUser.TRIGGER:
 			localStorage.removeItem('token');
 			return {
 				...state,
