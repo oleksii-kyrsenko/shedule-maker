@@ -82,7 +82,6 @@ export const Navbar = connect(
 						</Link>
 					</nav>
 					<Button
-						href="#"
 						color="primary"
 						variant="outlined"
 						className={classes.link}
