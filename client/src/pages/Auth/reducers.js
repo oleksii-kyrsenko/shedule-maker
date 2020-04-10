@@ -7,7 +7,7 @@ const initialState = {
 	token: null,
 };
 
-export const authReducer = (state = initialState, action) => {
+export function authReducer(state = initialState, action) {
 	const { type, payload } = action;
 	switch (type) {
 		case authUser.SUCCESS:
@@ -32,4 +32,4 @@ export const authReducer = (state = initialState, action) => {
 		default:
 			return state;
 	}
-};
+}

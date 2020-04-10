@@ -71,7 +71,6 @@ export const Auth = connect(
 							<Grid item xs={12}>
 								<TextField
 									inputRef={register({
-										// eslint-disable-next-line
 										required: true,
 									})}
 									variant="outlined"

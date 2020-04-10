@@ -7,7 +7,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import Link from '@material-ui/core/Link';
 import { logoutUser } from '../routines';
-import store from '../../store';
 
 import { useStyles } from './styles';
 
@@ -86,7 +85,7 @@ export const Navbar = connect(
 						variant="outlined"
 						className={classes.link}
 						onClick={() => {
-							store.dispatch(logoutUser());
+							logoutUser();
 							history.push('/login');
 						}}>
 						Logout

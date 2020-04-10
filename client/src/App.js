@@ -11,8 +11,8 @@ import { Preloader, Notify, Navbar } from './commons';
 
 const App = () => {
 	useEffect(() => {
+		setAuthToken(localStorage.token);
 		if (localStorage.token) {
-			setAuthToken(localStorage.token);
 			store.dispatch(fetchAuthUser());
 		}
 	}, []);

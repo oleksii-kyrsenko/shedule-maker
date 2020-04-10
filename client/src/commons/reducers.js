@@ -1,21 +1,21 @@
-import { loading, errorData, clearErrors } from './routines';
+import { loadData, errorData, clearErrors } from './routines';
 
 const initialState = {
 	isLoading: false,
 	errors: null,
 };
 
-export function commonsReducer(state = initialState, action) {
+export const commonsReducer = (state = initialState, action) => {
 	const { type, payload } = action;
 
 	switch (type) {
-		case loading.REQUEST:
+		case loadData.REQUEST:
 			return {
 				...state,
 				isLoading: true,
 			};
 
-		case loading.FULFILL:
+		case loadData.FULFILL:
 			return {
 				...state,
 				isLoading: false,
@@ -25,6 +25,7 @@ export function commonsReducer(state = initialState, action) {
 			return {
 				...state,
 				errors: payload,
+				isLoading: false,
 			};
 		case clearErrors.TRIGGER:
 			return {
@@ -35,4 +36,4 @@ export function commonsReducer(state = initialState, action) {
 		default:
 			return state;
 	}
-}
+};
