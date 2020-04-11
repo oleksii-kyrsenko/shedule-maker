@@ -23,7 +23,7 @@ export const DataTable = connect(
 	actionCreators
 )(({ columns, data, actions, title, setModalStatus, children, isModalOpen }) => {
 	const classes = useStyles();
-	const { edit, create, deleteItem } = actions;
+	const { deleteItem } = actions;
 
 	const [state, setState] = useState({
 		columns,
@@ -61,7 +61,7 @@ export const DataTable = connect(
 						icon: 'edit',
 						tooltip: 'Edit',
 						onClick: (event, rowData) => {
-							setModalData(rowData._id);
+							setModalData(rowData);
 							setModalStatus(true);
 						},
 					},
@@ -96,7 +96,7 @@ export const DataTable = connect(
 					<AddIcon />
 				</Fab>
 			</Tooltip>
-			{isModalOpen && <ModalForm data={modalData}>{children}</ModalForm>}
+			{isModalOpen && <ModalForm modalData={modalData}>{children}</ModalForm>}
 		</>
 	);
 });

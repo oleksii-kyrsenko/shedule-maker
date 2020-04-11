@@ -4,10 +4,10 @@ import { toast } from 'react-toastify';
 import '../../../node_modules/react-toastify/dist/ReactToastify.css';
 
 const mapStateToProps = (state) => ({
-	errors: state.commonsReducer.errors,
+	errorMessages: state.commonsReducer.errorMessages,
 });
 
-export const Notify = connect(mapStateToProps)(({ errors }) => {
+export const Notify = connect(mapStateToProps)(({ errorMessages }) => {
 	const notify = (msg) => {
 		return toast['error'](msg, {
 			toastId: msg,
@@ -16,8 +16,8 @@ export const Notify = connect(mapStateToProps)(({ errors }) => {
 
 	return (
 		<>
-			{errors
-				? errors.map((item, i) => (
+			{errorMessages
+				? errorMessages.map((item, i) => (
 						<span key={i} style={{ display: 'none' }}>
 							{notify(item.msg)}
 						</span>

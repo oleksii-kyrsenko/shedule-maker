@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Children, cloneElement } from 'react';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -18,9 +18,12 @@ const actionCreators = {
 export const ModalForm = connect(
 	mapStateToProps,
 	actionCreators
-)(({ isModalOpen, setModalStatus, children, data }) => {
-	console.log(data);
+)(({ isModalOpen, setModalStatus, children, modalData }) => {
 	const classes = useStyles();
+
+	const childrenWithProps = Children.map(children, (child) => {
+		return cloneElement(child, { modalData });
+	});
 
 	const handleClose = () => {
 		setModalStatus(false);
@@ -41,7 +44,7 @@ export const ModalForm = connect(
 				}}>
 				<Fade in={isModalOpen}>
 					<div id="transition-modal-description" className={classes.paper}>
-						{children}
+						{childrenWithProps}
 					</div>
 				</Fade>
 			</Modal>

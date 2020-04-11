@@ -8,10 +8,9 @@ export const useStyles = makeStyles((theme) => ({
 	},
 	paper: {
 		backgroundColor: theme.palette.background.paper,
-		// border: '2px solid #000',
-		borderRadius: 20,
+		borderRadius: 5,
 		boxShadow: theme.shadows[10],
 		outline: 'none',
-		padding: theme.spacing(2, 4, 3),
+		padding: theme.spacing(3, 1),
 	},
 }));

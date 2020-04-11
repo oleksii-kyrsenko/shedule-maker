@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchAllGroups, createGroup, editGroup, deleteGroup } from './routines';
+import { fetchAllGroups, deleteGroup } from './routines';
 
 import { DataTable } from '../../components';
+import { GroupForm } from './GroupForm';
 
 const mapStateToProps = (state) => ({
 	groups: state.groupsReducer.groups,
@@ -12,14 +13,12 @@ const mapStateToProps = (state) => ({
 
 const actionCreators = {
 	fetchAllGroups,
-	createGroup,
-	editGroup,
 	deleteGroup,
 };
 export const Groups = connect(
 	mapStateToProps,
 	actionCreators
-)(({ fetchAllGroups, createGroup, editGroup, deleteGroup, groups, isAuth }) => {
+)(({ fetchAllGroups, deleteGroup, groups, isAuth }) => {
 	const [data, setData] = useState([]);
 
 	const columns = [
@@ -51,8 +50,6 @@ export const Groups = connect(
 	];
 
 	const actions = {
-		edit: editGroup,
-		create: createGroup,
 		deleteItem: deleteGroup,
 	};
 
@@ -81,10 +78,8 @@ export const Groups = connect(
 	}, [groups]);
 
 	return (
-		<>
-			<DataTable columns={columns} data={data} actions={actions} title={title}>
-				<h1>Hello</h1>
-			</DataTable>
-		</>
+		<DataTable columns={columns} data={data} actions={actions} title={title}>
+			<GroupForm />
+		</DataTable>
 	);
 });

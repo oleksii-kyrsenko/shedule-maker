@@ -43,8 +43,8 @@ function* deleteGroupSaga({ payload }) {
 function* editGroupSaga({ payload }) {
 	try {
 		yield all([put(loadData.request()), put(editGroup.request())]);
-		const { _id, newData } = payload;
-		const response = yield axios.put(`/api/groups/${_id}`, newData);
+		const { id, data } = payload;
+		const response = yield axios.put(`/api/groups/${id}`, data);
 		yield all([put(editGroup.success(response.data)), put(fetchAllGroups())]);
 	} catch (error) {
 		const errors = error.response.data.errors;
