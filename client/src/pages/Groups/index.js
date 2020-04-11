@@ -63,17 +63,28 @@ export const Groups = connect(
 	}, [fetchAllGroups, isAuth]);
 
 	useEffect(() => {
+		setData([]);
 		groups &&
 			groups.map((item) => {
-				typeof item.students === 'object' && (item.students = item.students.length);
-				typeof item.cars === 'object' && (item.cars = item.cars.length);
-				typeof item.instructors === 'object' && (item.instructors = item.instructors.length);
-				item.start.length === 24 && (item.start = new Date(item.start).toLocaleDateString());
-				item.end.length === 24 && (item.end = new Date(item.end).toLocaleDateString());
-				return item;
-			}) &&
-			setData(groups);
+				return setData((prev) => [
+					...prev,
+					{
+						...item,
+						students: item.students.length,
+						instructors: item.instructors.length,
+						cars: item.cars.length,
+						start: new Date(item.start).toLocaleDateString(),
+						end: new Date(item.end).toLocaleDateString(),
+					},
+				]);
+			});
 	}, [groups]);
 
-	return <DataTable columns={columns} data={data} actions={actions} title={title} />;
+	return (
+		<>
+			<DataTable columns={columns} data={data} actions={actions} title={title}>
+				<h1>Hello</h1>
+			</DataTable>
+		</>
+	);
 });

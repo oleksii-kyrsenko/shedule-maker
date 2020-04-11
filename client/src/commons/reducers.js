@@ -1,8 +1,9 @@
-import { loadData, errorData, clearErrors } from './routines';
+import { loadData, errorData, clearErrors, setModalStatus } from './routines';
 
 const initialState = {
 	isLoading: false,
 	errors: null,
+	isModalOpen: false,
 };
 
 export const commonsReducer = (state = initialState, action) => {
@@ -31,6 +32,11 @@ export const commonsReducer = (state = initialState, action) => {
 			return {
 				...state,
 				errors: null,
+			};
+		case setModalStatus.TRIGGER:
+			return {
+				...state,
+				isModalOpen: payload,
 			};
 
 		default:
