@@ -11,10 +11,16 @@ import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
+import * as yup from 'yup';
 import { authUser, createUser } from './routines';
 import { errorData, clearErrors } from '../../commons/routines';
 import { useStyles } from './styles';
 import { setErrorsArray } from '../../helpers/setErrorsArray';
+
+const schema = yup.object().shape({
+	email: yup.string().email(),
+	password: yup.string().min(5),
+});
 
 const mapStateToProps = (state) => ({
 	isAuth: state.authReducer.isAuth,
@@ -33,7 +39,7 @@ export const Auth = connect(
 )(({ authUser, createUser, isAuth, errorData, clearErrors }) => {
 	const classes = useStyles();
 	const history = useHistory();
-	const { register, errors, handleSubmit } = useForm();
+	const { register, errors, handleSubmit } = useForm({ validationSchema: schema });
 
 	const [authMode, setAuthMode] = useState(true);
 
@@ -45,7 +51,7 @@ export const Auth = connect(
 		clearErrors();
 		const errorsArray = setErrorsArray(errors);
 		errorsArray.length && errorData(errorsArray);
-	}, [errors, clearErrors, errorData]);
+	}, [errors, clearErrors, errorData, authMode]);
 
 	const changeAuthModeHahdle = () => {
 		setAuthMode(!authMode);
@@ -85,11 +91,7 @@ export const Auth = connect(
 						)}
 						<Grid item xs={12}>
 							<TextField
-								inputRef={register({
-									// eslint-disable-next-line
-									pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i,
-									required: true,
-								})}
+								inputRef={register}
 								variant="outlined"
 								fullWidth
 								id="email"
@@ -101,10 +103,7 @@ export const Auth = connect(
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
-								inputRef={register({
-									required: true,
-									minLength: 5,
-								})}
+								inputRef={register}
 								variant="outlined"
 								fullWidth
 								name="password"
