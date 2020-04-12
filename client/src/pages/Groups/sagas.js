@@ -2,7 +2,7 @@ import axios from 'axios';
 import { put, all, takeEvery } from 'redux-saga/effects';
 
 import { fetchAllGroups, createGroup, deleteGroup, editGroup, fetchGroupById } from './routines';
-import { loadData, errorData } from '../../commons/routines';
+import { loadData, errorData, successData } from '../../commons/routines';
 
 function* fetchAllGroupsSaga() {
 	try {
@@ -21,7 +21,11 @@ function* createGroupSaga({ payload }) {
 	try {
 		yield all([put(loadData.request()), put(createGroup.request())]);
 		const response = yield axios.post('/api/groups', payload);
-		yield all([put(createGroup.success(response.data)), put(fetchAllGroups())]);
+		yield all([
+			put(createGroup.success(response.data.group)),
+			put(fetchAllGroups()),
+			put(successData(response.data.success)),
+		]);
 	} catch (error) {
 		const errors = error.response.data.errors;
 		yield all([put(errorData.trigger(errors))]);
@@ -31,7 +35,9 @@ function* createGroupSaga({ payload }) {
 function* deleteGroupSaga({ payload }) {
 	try {
 		yield all([put(loadData.request())]);
-		yield axios.delete(`/api/groups/${payload}`);
+		const response = yield axios.delete(`/api/groups/${payload}`);
+		console.log(response);
+		yield put(successData(response.data.success));
 	} catch (error) {
 		const errors = error.response.data.errors;
 		yield all([put(errorData.trigger(errors))]);
@@ -45,7 +51,11 @@ function* editGroupSaga({ payload }) {
 		yield all([put(loadData.request()), put(editGroup.request())]);
 		const { id, data } = payload;
 		const response = yield axios.put(`/api/groups/${id}`, data);
-		yield all([put(editGroup.success(response.data)), put(fetchAllGroups())]);
+		yield all([
+			put(editGroup.success(response.data.group)),
+			put(fetchAllGroups()),
+			put(successData(response.data.success)),
+		]);
 	} catch (error) {
 		const errors = error.response.data.errors;
 		yield all([put(errorData.trigger(errors))]);

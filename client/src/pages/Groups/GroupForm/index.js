@@ -20,10 +20,10 @@ import { errorData, clearErrors } from '../../../commons/routines';
 import { categories } from '../enums';
 
 const schema = yup.object().shape({
-	number: yup.string().required(),
-	start: yup.date().required(),
-	end: yup.date().required(),
-	category: yup.string().required().max(1),
+	number: yup.string().required('Group number is required'),
+	start: yup.string().required('Start date is required'),
+	end: yup.string().required('End date is required'),
+	category: yup.string().required('Group category is required').max(1),
 });
 
 const mapStateToProps = (state) => ({
@@ -75,6 +75,7 @@ export const GroupForm = connect(
 
 		const onSubmit = (data) => {
 			modalData ? editGroup({ id: modalData._id, data }) : createGroup(data);
+			console.log(errorMessages);
 			!isLoading && !errorMessages && setModalStatus(false);
 		};
 

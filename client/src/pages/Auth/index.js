@@ -18,8 +18,8 @@ import { useStyles } from './styles';
 import { setErrorsArray } from '../../helpers/setErrorsArray';
 
 const schema = yup.object().shape({
-	email: yup.string().email(),
-	password: yup.string().min(5),
+	email: yup.string().email('Email must be a valid email'),
+	password: yup.string().min(5, 'Password must be at least 5 characters'),
 });
 
 const mapStateToProps = (state) => ({
@@ -77,7 +77,7 @@ export const Auth = connect(
 							<Grid item xs={12}>
 								<TextField
 									inputRef={register({
-										required: true,
+										required: 'Company name is required',
 									})}
 									variant="outlined"
 									fullWidth

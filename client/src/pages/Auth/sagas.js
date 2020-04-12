@@ -1,16 +1,20 @@
 import axios from 'axios';
 import { put, all, takeEvery } from 'redux-saga/effects';
 import { authUser, fetchAuthUser, createUser } from './routines';
-import { loadData, errorData, clearErrors } from '../../commons/routines';
+import { loadData, errorData, clearErrors, successData } from '../../commons/routines';
 import { setAuthToken } from '../../helpers/setAuthToken';
 
 function* authUserSaga({ payload }) {
 	try {
 		yield put(loadData.request());
 		const response = yield axios.post('/api/auth', payload);
-		const { token } = response.data;
+		const { token, success } = response.data;
 		setAuthToken(token);
-		yield all([put(authUser.success({ token })), put(fetchAuthUser())]);
+		yield all([
+			put(authUser.success({ token })),
+			put(fetchAuthUser()),
+			put(successData( success )),
+		]);
 	} catch (error) {
 		const errors = error.response.data.errors;
 		yield all([put(errorData.trigger(errors)), put(authUser.failure()), put(loadData.fulfill())]);
@@ -35,9 +39,9 @@ function* createUserSaga({ payload }) {
 	try {
 		yield put(loadData.request());
 		const response = yield axios.post('/api/users', payload);
-		const { token } = response.data;
+		const { token, success } = response.data;
 		setAuthToken(token);
-		yield all([put(createUser.success({ token })), put(fetchAuthUser())]);
+		yield all([put(createUser.success({ token })), put(fetchAuthUser()),put(successData( success )),]);
 	} catch (error) {
 		const errors = error.response.data.errors;
 		yield all([put(errorData.trigger(errors)), put(createUser.failure()), put(loadData.fulfill())]);

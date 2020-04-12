@@ -5,11 +5,12 @@ import '../../../node_modules/react-toastify/dist/ReactToastify.css';
 
 const mapStateToProps = (state) => ({
 	errorMessages: state.commonsReducer.errorMessages,
+	successMessages: state.commonsReducer.successMessages,
 });
 
-export const Notify = connect(mapStateToProps)(({ errorMessages }) => {
-	const notify = (msg) => {
-		return toast['error'](msg, {
+export const Notify = connect(mapStateToProps)(({ errorMessages, successMessages }) => {
+	const notify = (msg, type) => {
+		return toast[type](msg, {
 			toastId: msg,
 		});
 	};
@@ -17,11 +18,24 @@ export const Notify = connect(mapStateToProps)(({ errorMessages }) => {
 	return (
 		<>
 			{errorMessages
-				? errorMessages.map((item, i) => (
-						<span key={i} style={{ display: 'none' }}>
-							{notify(item.msg)}
-						</span>
-				  ))
+				? errorMessages.map((item, i) => {
+						const msg = item.message || item.msg;
+						return (
+							<span key={i} style={{ display: 'none' }}>
+								{notify(msg, 'error')}
+							</span>
+						);
+				  })
+				: null}
+			{successMessages
+				? successMessages.map((item, i) => {
+						const msg = item.message || item.msg;
+						return (
+							<span key={i} style={{ display: 'none' }}>
+								{notify(msg, 'success')}
+							</span>
+						);
+				  })
 				: null}
 		</>
 	);

@@ -48,7 +48,7 @@ router.post(
 			});
 
 			await group.save();
-			res.json(group);
+			res.json({ group, success: [{ msg: 'Group created succesful' }] });
 		} catch (error) {
 			console.error(error.message);
 			res.status(500).json({
@@ -129,7 +129,7 @@ router.put(
 			);
 
 			await group.save();
-			res.json(group);
+			res.json({ group, success: [{ msg: 'Group updated succesful' }] });
 		} catch (error) {
 			console.error(error.message);
 
@@ -220,7 +220,7 @@ router.delete('/:id', auth, async (req, res) => {
 		}
 
 		await group.remove();
-		res.json({ msg: 'Group removed' });
+		res.json({ success: [{ msg: 'Group removed successful' }] });
 	} catch (error) {
 		console.error(error.message);
 		if (error.kind === 'ObjectId') {

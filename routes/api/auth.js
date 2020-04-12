@@ -69,6 +69,7 @@ router.post(
 				if (err) throw err;
 				res.json({
 					token,
+					success: [{ msg: 'Authorized succesful' }]
 				});
 			});
 		} catch (error) {
