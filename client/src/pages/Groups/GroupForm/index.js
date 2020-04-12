@@ -11,15 +11,24 @@ import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import { useForm, Controller } from 'react-hook-form';
 import { connect } from 'react-redux';
+import * as yup from 'yup';
 import { useStyles } from './styles';
 import { setErrorsArray } from '../../../helpers/setErrorsArray';
 import { setModalStatus } from '../../../commons/routines';
-
 import { createGroup, editGroup } from '../routines';
 import { errorData, clearErrors } from '../../../commons/routines';
 
+
+const schema = yup.object().shape({
+	name: yup.string().required(),
+	start: yup.string().required(),
+	end: yup.string().required(),
+	category: yup.string().required(),
+});
+
 const mapStateToProps = (state) => ({
 	errorMessages: state.commonsReducer.errorMessages,
+	isLoading: state.commonsReducer.isLoading,
 });
 
 const actionCreators = {
@@ -42,9 +51,12 @@ export const GroupForm = connect(
 		clearErrors,
 		setModalStatus,
 		errorMessages,
+		isLoading,
 	}) => {
 		const classes = useStyles();
-		const { register, errors, handleSubmit, reset, control } = useForm();
+		const { register, errors, handleSubmit, reset, control, clearError } = useForm({
+			validationSchema: schema,
+		});
 
 		useEffect(() => {
 			modalData &&
@@ -62,10 +74,8 @@ export const GroupForm = connect(
 		}, [errors, clearErrors, errorData]);
 
 		const onSubmit = (data) => {
-			console.log(data);
 			modalData ? editGroup({ id: modalData._id, data }) : createGroup(data);
-			!errorMessages && setModalStatus(false);
-			return;
+			!isLoading && !errorMessages && setModalStatus(false);
 		};
 
 		return (
@@ -79,9 +89,7 @@ export const GroupForm = connect(
 						<Grid container spacing={2}>
 							<Grid item xs={6}>
 								<TextField
-									inputRef={register({
-										required: true,
-									})}
+									inputRef={register}
 									variant="outlined"
 									fullWidth
 									id="name"
@@ -96,19 +104,6 @@ export const GroupForm = connect(
 									<InputLabel id="category-label">Group category</InputLabel>
 									<Controller
 										error={!!errors.category}
-										inputRef={(e) => {
-											return register(
-												{ name: 'category' },
-												// { required: true }
-												{
-													validate: (value) => {
-														// need to validate if it is undefined or empty array
-														console.log(value);
-														return Array.isArray(value) ? value.length > 0 : !!value;
-													},
-												}
-											);
-										}}
 										as={Select}
 										name="category"
 										labelId="category-label"
@@ -132,9 +127,7 @@ export const GroupForm = connect(
 							</Grid>
 							<Grid item xs={6}>
 								<TextField
-									inputRef={register({
-										required: true,
-									})}
+									inputRef={register}
 									id="start"
 									label="Start"
 									type="date"
@@ -148,9 +141,7 @@ export const GroupForm = connect(
 							</Grid>
 							<Grid item xs={6}>
 								<TextField
-									inputRef={register({
-										required: true,
-									})}
+									inputRef={register}
 									id="end"
 									label="End"
 									type="date"
@@ -164,6 +155,7 @@ export const GroupForm = connect(
 							</Grid>
 						</Grid>
 						<Button
+							onClick={() => clearErrors()}
 							type="submit"
 							fullWidth
 							variant="contained"
