@@ -1,5 +1,6 @@
 import React, { Children, cloneElement } from 'react';
 import Modal from '@material-ui/core/Modal';
+import CloseIcon from '@material-ui/icons/Close';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { connect } from 'react-redux';
@@ -44,6 +45,12 @@ export const ModalForm = connect(
 				}}>
 				<Fade in={isModalOpen}>
 					<div id="transition-modal-description" className={classes.paper}>
+						<CloseIcon
+							className={classes.close}
+							onClick={() => {
+								setModalStatus(false);
+							}}
+						/>
 						{childrenWithProps}
 					</div>
 				</Fade>

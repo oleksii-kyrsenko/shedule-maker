@@ -12,5 +12,13 @@ export const useStyles = makeStyles((theme) => ({
 		boxShadow: theme.shadows[10],
 		outline: 'none',
 		padding: theme.spacing(3, 1),
+		position: 'relative',
+	},
+	close: {
+		position: 'absolute',
+		top: 5,
+		right: 5,
+		cursor: 'pointer',
+		fontSize: 28,
 	},
 }));
