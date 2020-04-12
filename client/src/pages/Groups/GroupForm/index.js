@@ -17,13 +17,13 @@ import { setErrorsArray } from '../../../helpers/setErrorsArray';
 import { setModalStatus } from '../../../commons/routines';
 import { createGroup, editGroup } from '../routines';
 import { errorData, clearErrors } from '../../../commons/routines';
-
+import { categories } from '../enums';
 
 const schema = yup.object().shape({
 	name: yup.string().required(),
-	start: yup.string().required(),
-	end: yup.string().required(),
-	category: yup.string().required(),
+	start: yup.date().required(),
+	end: yup.date().required(),
+	category: yup.string().required().max(1),
 });
 
 const mapStateToProps = (state) => ({
@@ -54,7 +54,7 @@ export const GroupForm = connect(
 		isLoading,
 	}) => {
 		const classes = useStyles();
-		const { register, errors, handleSubmit, reset, control, clearError } = useForm({
+		const { register, errors, handleSubmit, reset, control } = useForm({
 			validationSchema: schema,
 		});
 
@@ -117,11 +117,11 @@ export const GroupForm = connect(
 										<MenuItem value="">
 											<em>None</em>
 										</MenuItem>
-										<MenuItem value="A">A</MenuItem>
-										<MenuItem value="B">B</MenuItem>
-										<MenuItem value="C">C</MenuItem>
-										<MenuItem value="D">D</MenuItem>
-										<MenuItem value="E">E</MenuItem>
+										{categories.map((category, i) => (
+											<MenuItem key={i} value={category}>
+												{category}
+											</MenuItem>
+										))}
 									</Controller>
 								</FormControl>
 							</Grid>
