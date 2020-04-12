@@ -6,6 +6,8 @@ import { fetchAllGroups, deleteGroup } from './routines';
 import { DataTable } from '../../components';
 import { GroupForm } from './GroupForm';
 
+import { columns, title } from './enums';
+
 const mapStateToProps = (state) => ({
 	groups: state.groupsReducer.groups,
 	isAuth: state.authReducer.isAuth,
@@ -20,37 +22,9 @@ export const Groups = connect(
 	actionCreators
 )(({ fetchAllGroups, deleteGroup, groups, isAuth }) => {
 	const [data, setData] = useState([]);
-
-	const columns = [
-		{ title: 'Group number', field: 'number' },
-		{ title: 'Category', field: 'category' },
-		{
-			title: 'Start',
-			field: 'start',
-		},
-		{
-			title: 'End',
-			field: 'end',
-		},
-		{
-			title: 'Students',
-			field: 'students',
-		},
-		{
-			title: 'Instructors',
-			field: 'instructors',
-		},
-		{
-			title: 'Cars',
-			field: 'cars',
-		},
-	];
-
 	const actions = {
 		deleteItem: deleteGroup,
 	};
-
-	const title = 'Groups';
 
 	useEffect(() => {
 		isAuth && fetchAllGroups();

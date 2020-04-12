@@ -44,12 +44,10 @@ export const DataTable = connect(
 				components={{
 					Pagination: (props) => {
 						return (
-							<>
-								<TablePagination
-									{...props}
-									rowsPerPageOptions={[5, 10, 30, { label: 'All', value: props.count }]}
-								/>
-							</>
+							<TablePagination
+								{...props}
+								rowsPerPageOptions={[5, 10, 30, { label: 'All', value: props.count }]}
+							/>
 						);
 					},
 				}}
@@ -57,6 +55,13 @@ export const DataTable = connect(
 					grouping: true,
 				}}
 				actions={[
+					{
+						icon: 'visibility',
+						tooltip: 'Details',
+						onClick: (event, rowData) => {
+							history.push(`${history.location.pathname}/${rowData._id}`)
+						},
+					},
 					{
 						icon: 'edit',
 						tooltip: 'Edit',
