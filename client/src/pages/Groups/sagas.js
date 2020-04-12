@@ -36,7 +36,6 @@ function* deleteGroupSaga({ payload }) {
 	try {
 		yield all([put(loadData.request())]);
 		const response = yield axios.delete(`/api/groups/${payload}`);
-		console.log(response);
 		yield put(successData(response.data.success));
 	} catch (error) {
 		const errors = error.response.data.errors;

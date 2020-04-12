@@ -1,10 +1,18 @@
-import { loadData, errorData, clearErrors, setModalStatus, successData } from './routines';
+import {
+	loadData,
+	errorData,
+	clearErrors,
+	setModalStatus,
+	successData,
+	setDialogStatus,
+} from './routines';
 
 const initialState = {
 	isLoading: false,
 	errorMessages: null,
 	successMessages: null,
 	isModalOpen: false,
+	isDialogOpen: false,
 };
 
 export const commonsReducer = (state = initialState, action) => {
@@ -45,6 +53,11 @@ export const commonsReducer = (state = initialState, action) => {
 			return {
 				...state,
 				isModalOpen: payload,
+			};
+		case setDialogStatus.TRIGGER:
+			return {
+				...state,
+				isDialogOpen: payload,
 			};
 
 		default:

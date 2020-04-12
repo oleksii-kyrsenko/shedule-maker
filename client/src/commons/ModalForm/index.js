@@ -47,9 +47,7 @@ export const ModalForm = connect(
 					<div id="transition-modal-description" className={classes.paper}>
 						<CloseIcon
 							className={classes.close}
-							onClick={() => {
-								setModalStatus(false);
-							}}
+							onClick={handleClose}
 						/>
 						{childrenWithProps}
 					</div>
