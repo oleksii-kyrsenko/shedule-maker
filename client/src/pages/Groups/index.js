@@ -22,7 +22,7 @@ export const Groups = connect(
 	const [data, setData] = useState([]);
 
 	const columns = [
-		{ title: 'Group number', field: 'name' },
+		{ title: 'Group number', field: 'number' },
 		{ title: 'Category', field: 'category' },
 		{
 			title: 'Start',
@@ -35,17 +35,14 @@ export const Groups = connect(
 		{
 			title: 'Students',
 			field: 'students',
-			editable: 'never',
 		},
 		{
 			title: 'Instructors',
 			field: 'instructors',
-			editable: 'never',
 		},
 		{
 			title: 'Cars',
 			field: 'cars',
-			editable: 'never',
 		},
 	];
 

@@ -20,7 +20,7 @@ import { errorData, clearErrors } from '../../../commons/routines';
 import { categories } from '../enums';
 
 const schema = yup.object().shape({
-	name: yup.string().required(),
+	number: yup.string().required(),
 	start: yup.date().required(),
 	end: yup.date().required(),
 	category: yup.string().required().max(1),
@@ -61,7 +61,7 @@ export const GroupForm = connect(
 		useEffect(() => {
 			modalData &&
 				reset({
-					name: modalData.name,
+					number: modalData.number,
 					start: modalData.start.split('.').reverse().join('-'),
 					end: modalData.end.split('.').reverse().join('-'),
 				});
@@ -92,11 +92,11 @@ export const GroupForm = connect(
 									inputRef={register}
 									variant="outlined"
 									fullWidth
-									id="name"
-									name="name"
+									id="number"
+									name="number"
 									type="text"
 									label="Group number"
-									error={!!errors.name}
+									error={!!errors.number}
 								/>
 							</Grid>
 							<Grid item xs={6}>

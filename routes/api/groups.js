@@ -15,7 +15,7 @@ router.post(
 	[
 		auth,
 		[
-			check('name', 'Name is required').not().isEmpty(),
+			check('number', 'Group number is required').not().isEmpty(),
 			check('start', 'Start date is required').not().isEmpty(),
 			check('end', 'End date is required').not().isEmpty(),
 			check('category', 'Category is required').not().isEmpty(),
@@ -27,12 +27,12 @@ router.post(
 			return res.status(400).json({ errors: errors.array() });
 		}
 
-		const { name, start, end, category } = req.body;
+		const { number, start, end, category } = req.body;
 
 		try {
 			let group = await Group.findOne({
 				user: req.user.id,
-				name: req.body.name,
+				number: req.body.number,
 			});
 
 			if (group) {
@@ -41,7 +41,7 @@ router.post(
 
 			group = new Group({
 				user: req.user.id,
-				name: name.trim(),
+				number: number.trim(),
 				start,
 				end,
 				category: category.toUpperCase().trim(),
@@ -67,7 +67,7 @@ router.put(
 	[
 		auth,
 		[
-			check('name', 'Name is required').not().isEmpty(),
+			check('number', 'Group number is required').not().isEmpty(),
 			check('start', 'Start date is required').not().isEmpty(),
 			check('end', 'End date is required').not().isEmpty(),
 			check('category', 'Category is required').not().isEmpty(),
@@ -79,12 +79,12 @@ router.put(
 			return res.status(400).json({ errors: errors.array() });
 		}
 
-		const { name, start, end, category } = req.body;
+		const { number, start, end, category } = req.body;
 
 		const groupFields = {};
 
-		if (name) {
-			groupFields.name = name.trim();
+		if (number) {
+			groupFields.number = number.trim();
 		}
 		if (start) {
 			groupFields.start = start;
@@ -106,10 +106,10 @@ router.put(
 				return res.status(404).json({ errors: [{ msg: 'Group not found' }] });
 			}
 
-			if (name !== group.name) {
+			if (number !== group.number) {
 				group = await Group.findOne({
 					user: req.user.id,
-					name,
+					number,
 				});
 				if (group) {
 					return res
