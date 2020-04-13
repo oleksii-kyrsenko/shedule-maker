@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const config = require('config');
 
 const connectDB = require('./db');
 
@@ -28,7 +29,7 @@ if (process.env.NODE_ENV === 'production') {
 	});
 }
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || config.get('PORT');
 
 app.listen(PORT, (error) =>
 	error ? console.log(error) : console.log(`Server started on port ${PORT}`)
