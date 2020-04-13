@@ -91,8 +91,8 @@ export const DataTable = connect(
 							onClick: (event, rowData) => {
 								setDialogStatus(true);
 								setDialogData({
-									title: 'Deletion.',
-									body: `Are you sure that you want to delete group № ${rowData.number}?
+									title: 'Deletion',
+									body: `Delete group № ${rowData.number}?
 								`,
 									id: rowData._id,
 								});

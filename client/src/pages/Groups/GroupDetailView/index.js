@@ -55,11 +55,7 @@ export const GroupDetailView = () => {
 			<Typography className={classes.title} component="h1" variant="h5" align="center">
 				Group №1
 			</Typography>
-			<AppBar
-				className={classes.header}
-				position="static"
-				color="default"
-				>
+			<AppBar className={classes.header} position="static" color="default">
 				<Tabs
 					value={value}
 					onChange={handleChange}

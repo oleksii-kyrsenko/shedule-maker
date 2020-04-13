@@ -1,6 +1,6 @@
 export const categories = ['A', 'B', 'C', 'D', 'E'];
 export const columns = [
-	{ title: 'Group number', field: 'number' },
+	{ title: 'Number', field: 'number' },
 	{ title: 'Category', field: 'category' },
 	{
 		title: 'Start',
