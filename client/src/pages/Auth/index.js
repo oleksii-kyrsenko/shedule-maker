@@ -17,9 +17,10 @@ import { errorData, clearMessages } from '../../commons/routines';
 import { useStyles } from './styles';
 import { setErrorsArray } from '../../helpers/setErrorsArray';
 
-const schema = yup.object().shape({
-	email: yup.string().email('Email must be a valid email'),
+let schema = yup.object().shape({
+	email: yup.string().email('Email must be a valid email').required(),
 	password: yup.string().min(5, 'Password must be at least 5 characters'),
+	name: yup.string().required(),
 });
 
 const mapStateToProps = (state) => ({
@@ -39,9 +40,24 @@ export const Auth = connect(
 )(({ authUser, createUser, isAuth, errorData, clearMessages }) => {
 	const classes = useStyles();
 	const history = useHistory();
+	const [authMode, setAuthMode] = useState(true);
+
+	let schema;
+
+	authMode
+		? (schema = yup.object().shape({
+				email: yup.string().email('Email must be a valid email').required(),
+				password: yup.string().min(5, 'Password must be at least 5 characters'),
+		  }))
+		: (schema = yup.object().shape({
+				email: yup.string().email('Email must be a valid email').required(),
+				password: yup.string().min(5, 'Password must be at least 5 characters'),
+				name: yup.string().required('Company name is required'),
+		  }));
+
 	const { register, errors, handleSubmit } = useForm({ validationSchema: schema });
 
-	const [authMode, setAuthMode] = useState(true);
+	console.log(errors);
 
 	useEffect(() => {
 		isAuth && history.push('/');
@@ -76,9 +92,8 @@ export const Auth = connect(
 						{!authMode && (
 							<Grid item xs={12}>
 								<TextField
-									inputRef={register({
-										required: 'Company name is required',
-									})}
+									// inputRef={register({ required: true })}
+									inputRef={register}
 									variant="outlined"
 									fullWidth
 									id="name"
