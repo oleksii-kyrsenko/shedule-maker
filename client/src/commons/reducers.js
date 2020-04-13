@@ -1,7 +1,7 @@
 import {
 	loadData,
 	errorData,
-	clearErrors,
+	clearMessages,
 	setModalStatus,
 	successData,
 	setDialogStatus,
@@ -43,7 +43,7 @@ export const commonsReducer = (state = initialState, action) => {
 				successMessages: payload,
 				isLoading: false,
 			};
-		case clearErrors.TRIGGER:
+		case clearMessages.TRIGGER:
 			return {
 				...state,
 				errorMessages: null,

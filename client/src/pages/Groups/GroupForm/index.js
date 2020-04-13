@@ -16,7 +16,7 @@ import { useStyles } from './styles';
 import { setErrorsArray } from '../../../helpers/setErrorsArray';
 import { setModalStatus } from '../../../commons/routines';
 import { createGroup, editGroup } from '../routines';
-import { errorData, clearErrors } from '../../../commons/routines';
+import { errorData, clearMessages } from '../../../commons/routines';
 import { categories } from '../enums';
 
 const schema = yup.object().shape({
@@ -35,7 +35,7 @@ const actionCreators = {
 	createGroup,
 	editGroup,
 	errorData,
-	clearErrors,
+	clearMessages,
 	setModalStatus,
 };
 
@@ -48,7 +48,7 @@ export const GroupForm = connect(
 		createGroup,
 		editGroup,
 		errorData,
-		clearErrors,
+		clearMessages,
 		setModalStatus,
 		errorMessages,
 		isLoading,
@@ -70,10 +70,10 @@ export const GroupForm = connect(
 		}, [reset, modalData]);
 
 		useEffect(() => {
-			clearErrors();
+			clearMessages();
 			const errorsArray = setErrorsArray(errors);
 			errorsArray.length && errorData(errorsArray);
-		}, [errors, clearErrors, errorData]);
+		}, [errors, clearMessages, errorData]);
 
 		useEffect(() => {
 			flag && !isLoading && !errorMessages && setModalStatus(false);
@@ -162,7 +162,7 @@ export const GroupForm = connect(
 							</Grid>
 						</Grid>
 						<Button
-							onClick={() => clearErrors()}
+							onClick={() => clearMessages()}
 							type="submit"
 							fullWidth
 							variant="contained"

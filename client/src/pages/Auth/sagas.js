@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { put, all, takeEvery } from 'redux-saga/effects';
 import { authUser, fetchAuthUser, createUser } from './routines';
-import { loadData, errorData, clearErrors, successData } from '../../commons/routines';
+import { loadData, errorData, clearMessages, successData } from '../../commons/routines';
 import { setAuthToken } from '../../helpers/setAuthToken';
 
 function* authUserSaga({ payload }) {
@@ -19,7 +19,7 @@ function* authUserSaga({ payload }) {
 		const errors = error.response.data.errors;
 		yield all([put(errorData.trigger(errors)), put(authUser.failure()), put(loadData.fulfill())]);
 	} finally {
-		yield put(clearErrors.trigger());
+		yield put(clearMessages.trigger());
 	}
 }
 
@@ -31,7 +31,7 @@ function* fetchAuthUserSaga() {
 		const errors = error.response.data.errors;
 		yield all([put(errorData.trigger(errors)), put(fetchAuthUser.failure())]);
 	} finally {
-		yield all([put(loadData.fulfill()), put(clearErrors.trigger())]);
+		yield all([put(loadData.fulfill()), put(clearMessages.trigger())]);
 	}
 }
 
@@ -46,7 +46,7 @@ function* createUserSaga({ payload }) {
 		const errors = error.response.data.errors;
 		yield all([put(errorData.trigger(errors)), put(createUser.failure()), put(loadData.fulfill())]);
 	} finally {
-		yield put(clearErrors.trigger());
+		yield put(clearMessages.trigger());
 	}
 }
 

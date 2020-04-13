@@ -13,7 +13,7 @@ import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
 import * as yup from 'yup';
 import { authUser, createUser } from './routines';
-import { errorData, clearErrors } from '../../commons/routines';
+import { errorData, clearMessages } from '../../commons/routines';
 import { useStyles } from './styles';
 import { setErrorsArray } from '../../helpers/setErrorsArray';
 
@@ -30,13 +30,13 @@ const actionCreators = {
 	authUser,
 	createUser,
 	errorData,
-	clearErrors,
+	clearMessages,
 };
 
 export const Auth = connect(
 	mapStateToProps,
 	actionCreators
-)(({ authUser, createUser, isAuth, errorData, clearErrors }) => {
+)(({ authUser, createUser, isAuth, errorData, clearMessages }) => {
 	const classes = useStyles();
 	const history = useHistory();
 	const { register, errors, handleSubmit } = useForm({ validationSchema: schema });
@@ -48,10 +48,10 @@ export const Auth = connect(
 	}, [isAuth, history]);
 
 	useEffect(() => {
-		clearErrors();
+		clearMessages();
 		const errorsArray = setErrorsArray(errors);
 		errorsArray.length && errorData(errorsArray);
-	}, [errors, clearErrors, errorData, authMode]);
+	}, [errors, clearMessages, errorData, authMode]);
 
 	const changeAuthModeHahdle = () => {
 		setAuthMode(!authMode);
