@@ -6,7 +6,7 @@ import { loadData, errorData, successData } from '../../commons/routines';
 
 function* fetchAllGroupsSaga() {
 	try {
-		yield all([put(loadData.request()), put(fetchAllGroups.request())]);
+		yield all([put(loadData.request())]);
 		const response = yield axios.get('/api/groups');
 		yield put(fetchAllGroups.success(response.data));
 	} catch (error) {
@@ -23,8 +23,8 @@ function* createGroupSaga({ payload }) {
 		const response = yield axios.post('/api/groups', payload);
 		yield all([
 			put(createGroup.success(response.data.group)),
-			put(fetchAllGroups()),
 			put(successData(response.data.success)),
+			put(fetchAllGroups()),
 		]);
 	} catch (error) {
 		const errors = error.response.data.errors;
@@ -52,8 +52,8 @@ function* editGroupSaga({ payload }) {
 		const response = yield axios.put(`/api/groups/${id}`, data);
 		yield all([
 			put(editGroup.success(response.data.group)),
-			put(fetchAllGroups()),
 			put(successData(response.data.success)),
+			put(fetchAllGroups()),
 		]);
 	} catch (error) {
 		const errors = error.response.data.errors;
