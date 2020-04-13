@@ -28,6 +28,7 @@ const schema = yup.object().shape({
 
 const mapStateToProps = (state) => ({
 	errorMessages: state.commonsReducer.errorMessages,
+	isModalOpen: state.commonsReducer.isModalOpen,
 	isLoading: state.commonsReducer.isLoading,
 });
 
@@ -72,7 +73,7 @@ export const GroupForm = connect(
 		useEffect(() => {
 			const errorsArray = setErrorsArray(errors);
 			errorsArray.length && errorData(errorsArray);
-		}, [errors, clearMessages, errorData]);
+		}, [errors, errorData]);
 
 		useEffect(() => {
 			flag && !isLoading && !errorMessages && setModalStatus(false);
