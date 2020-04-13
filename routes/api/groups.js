@@ -36,7 +36,7 @@ router.post(
 			});
 
 			if (group) {
-				return res.status(400).json({ errors: [{ msg: 'Group already exists' }] });
+				return res.status(400).json({ errors: [{ msg: 'Group with same number already exists' }] });
 			}
 
 			group = new Group({

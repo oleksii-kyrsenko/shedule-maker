@@ -77,6 +77,7 @@ export const GroupForm = connect(
 
 		useEffect(() => {
 			flag && !isLoading && !errorMessages && setModalStatus(false);
+			// eslint-disable-next-line
 		}, [flag, isLoading]);
 
 		const onSubmit = (data) => {
