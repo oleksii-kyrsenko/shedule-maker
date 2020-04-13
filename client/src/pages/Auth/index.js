@@ -37,7 +37,7 @@ export const Auth = connect(
 	const [authMode, setAuthMode] = useState(true);
 
 	let options = {
-		email: yup.string().email('Email must be a valid email').required(),
+		email: yup.string().email('Email must be a valid email').required('Email is required'),
 		password: yup.string().min(5, 'Password must be at least 5 characters'),
 	};
 
