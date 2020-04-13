@@ -24,6 +24,4 @@ export const columns = [
 	},
 ];
 
-
-
 export const title = 'Groups';
