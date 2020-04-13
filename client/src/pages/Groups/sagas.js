@@ -2,7 +2,7 @@ import axios from 'axios';
 import { put, all, takeEvery } from 'redux-saga/effects';
 
 import { fetchAllGroups, createGroup, deleteGroup, editGroup, fetchGroupById } from './routines';
-import { loadData, errorData, successData } from '../../commons/routines';
+import { loadData, errorData, successData, clearMessages } from '../../commons/routines';
 
 function* fetchAllGroupsSaga() {
 	try {
@@ -13,7 +13,7 @@ function* fetchAllGroupsSaga() {
 		const errors = error.response.data.errors;
 		yield all([put(errorData.trigger(errors))]);
 	} finally {
-		yield put(loadData.fulfill());
+		yield all([put(loadData.fulfill()), put(clearMessages())]);
 	}
 }
 
@@ -29,6 +29,8 @@ function* createGroupSaga({ payload }) {
 	} catch (error) {
 		const errors = error.response.data.errors;
 		yield all([put(errorData.trigger(errors))]);
+	} finally {
+		yield all([put(clearMessages())]);
 	}
 }
 
@@ -36,12 +38,12 @@ function* deleteGroupSaga({ payload }) {
 	try {
 		yield all([put(loadData.request())]);
 		const response = yield axios.delete(`/api/groups/${payload}`);
-		yield put(successData(response.data.success));
+		yield all([put(successData(response.data.success)), put(fetchAllGroups())]);
 	} catch (error) {
 		const errors = error.response.data.errors;
 		yield all([put(errorData.trigger(errors))]);
 	} finally {
-		yield put(fetchAllGroups());
+		yield all([put(clearMessages())]);
 	}
 }
 
@@ -58,6 +60,8 @@ function* editGroupSaga({ payload }) {
 	} catch (error) {
 		const errors = error.response.data.errors;
 		yield all([put(errorData.trigger(errors))]);
+	} finally {
+		yield all([put(clearMessages())]);
 	}
 }
 

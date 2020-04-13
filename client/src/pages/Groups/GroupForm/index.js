@@ -70,7 +70,6 @@ export const GroupForm = connect(
 		}, [reset, modalData]);
 
 		useEffect(() => {
-			clearMessages();
 			const errorsArray = setErrorsArray(errors);
 			errorsArray.length && errorData(errorsArray);
 		}, [errors, clearMessages, errorData]);
@@ -81,6 +80,7 @@ export const GroupForm = connect(
 		}, [flag, isLoading]);
 
 		const onSubmit = (data) => {
+			clearMessages();
 			modalData ? editGroup({ id: modalData._id, data }) : createGroup(data);
 			setFlag(true);
 		};
