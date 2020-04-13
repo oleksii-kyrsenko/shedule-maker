@@ -11,7 +11,7 @@ function* fetchAllGroupsSaga() {
 		yield put(fetchAllGroups.success(response.data));
 	} catch (error) {
 		const errors = error.response.data.errors;
-		yield all([put(errorData.trigger(errors))]);
+		yield all([put(errorData.trigger(errors)), put(fetchAllGroups.failure())]);
 	} finally {
 		yield all([put(loadData.fulfill()), put(clearMessages())]);
 	}

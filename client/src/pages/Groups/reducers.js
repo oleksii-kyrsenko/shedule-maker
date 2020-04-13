@@ -11,11 +11,12 @@ export function groupsReducer(state = initialState, action) {
 	const { type, payload } = action;
 	switch (type) {
 		case fetchAllGroups.REQUEST:
+		case fetchAllGroups.FAILURE:
 			return {
 				...state,
 				groups: null,
 			};
-		
+
 		case fetchAllGroups.SUCCESS:
 			return {
 				...state,
@@ -28,7 +29,7 @@ export function groupsReducer(state = initialState, action) {
 				...state,
 				group: null,
 			};
-		
+
 		case createGroup.SUCCESS:
 		case editGroup.SUCCESS:
 		case fetchGroupById.SUCCESS:
@@ -36,7 +37,7 @@ export function groupsReducer(state = initialState, action) {
 				...state,
 				group: payload,
 			};
-		
+
 		case logoutUser.TRIGGER:
 			return {
 				...state,
@@ -47,4 +48,4 @@ export function groupsReducer(state = initialState, action) {
 		default:
 			return state;
 	}
-};
+}
