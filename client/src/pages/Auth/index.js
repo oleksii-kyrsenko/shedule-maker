@@ -17,12 +17,6 @@ import { errorData, clearMessages } from '../../commons/routines';
 import { useStyles } from './styles';
 import { setErrorsArray } from '../../helpers/setErrorsArray';
 
-let schema = yup.object().shape({
-	email: yup.string().email('Email must be a valid email').required(),
-	password: yup.string().min(5, 'Password must be at least 5 characters'),
-	name: yup.string().required(),
-});
-
 const mapStateToProps = (state) => ({
 	isAuth: state.authReducer.isAuth,
 });
@@ -42,19 +36,14 @@ export const Auth = connect(
 	const history = useHistory();
 	const [authMode, setAuthMode] = useState(true);
 
-	let schema;
+	let options = {
+		email: yup.string().email('Email must be a valid email').required(),
+		password: yup.string().min(5, 'Password must be at least 5 characters'),
+	};
 
-	authMode
-		? (schema = yup.object().shape({
-				email: yup.string().email('Email must be a valid email').required(),
-				password: yup.string().min(5, 'Password must be at least 5 characters'),
-		  }))
-		: (schema = yup.object().shape({
-				email: yup.string().email('Email must be a valid email').required(),
-				password: yup.string().min(5, 'Password must be at least 5 characters'),
-				name: yup.string().required('Company name is required'),
-		  }));
+	!authMode && (options = { ...options, name: yup.string().required('Company name is required') });
 
+	const schema = yup.object().shape(options);
 	const { register, errors, handleSubmit } = useForm({ validationSchema: schema });
 
 	console.log(errors);
