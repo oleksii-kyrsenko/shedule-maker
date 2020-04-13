@@ -46,8 +46,6 @@ export const Auth = connect(
 	const schema = yup.object().shape(options);
 	const { register, errors, handleSubmit } = useForm({ validationSchema: schema });
 
-	console.log(errors);
-
 	useEffect(() => {
 		isAuth && history.push('/');
 	}, [isAuth, history]);
