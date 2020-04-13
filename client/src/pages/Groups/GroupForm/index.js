@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -58,6 +58,8 @@ export const GroupForm = connect(
 			validationSchema: schema,
 		});
 
+		const [flag, setFlag] = useState(false);
+
 		useEffect(() => {
 			modalData &&
 				reset({
@@ -73,10 +75,13 @@ export const GroupForm = connect(
 			errorsArray.length && errorData(errorsArray);
 		}, [errors, clearErrors, errorData]);
 
+		useEffect(() => {
+			flag && !isLoading && !errorMessages && setModalStatus(false);
+		}, [flag, isLoading]);
+
 		const onSubmit = (data) => {
 			modalData ? editGroup({ id: modalData._id, data }) : createGroup(data);
-			console.log(errorMessages);
-			!isLoading && !errorMessages && setModalStatus(false);
+			setFlag(true);
 		};
 
 		return (
