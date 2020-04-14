@@ -50,7 +50,7 @@ export const GroupDetailView = () => {
 	return (
 		<div className={classes.root}>
 			<Typography className={classes.title} component="h1" variant="h5" align="center">
-				Group №1
+				Група №1
 			</Typography>
 			<AppBar className={classes.header} position="static" color="default">
 				<Tabs
@@ -60,10 +60,10 @@ export const GroupDetailView = () => {
 					textColor="primary"
 					variant="fullWidth"
 					aria-label="full width tabs example">
-					<Tab label="Shedule" {...a11yProps(0)} />
-					<Tab label="Students" {...a11yProps(1)} />
-					<Tab label="Instructors" {...a11yProps(2)} />
-					<Tab label="Cars" {...a11yProps(3)} />
+					<Tab label="Розклад" {...a11yProps(0)} />
+					<Tab label="Студенти" {...a11yProps(1)} />
+					<Tab label="Інтруктори" {...a11yProps(2)} />
+					<Tab label="Автомобілі" {...a11yProps(3)} />
 				</Tabs>
 			</AppBar>
 			<div>
