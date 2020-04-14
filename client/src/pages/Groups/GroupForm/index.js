@@ -136,6 +136,7 @@ export const GroupForm = connect(
 							<Grid item xs={6}>
 								<TextField
 									inputRef={register}
+									fullWidth
 									id="start"
 									label="Start"
 									type="date"
@@ -150,6 +151,7 @@ export const GroupForm = connect(
 							<Grid item xs={6}>
 								<TextField
 									inputRef={register}
+									fullWidth
 									id="end"
 									label="End"
 									type="date"
