@@ -50,7 +50,7 @@ export const Navbar = connect(
 							color="textPrimary"
 							href="#"
 							className={classes.link}>
-							Groups
+							групи
 						</Link>
 						<Link
 							component={NavLink}
@@ -59,7 +59,7 @@ export const Navbar = connect(
 							href="#"
 							to="/students"
 							className={classes.link}>
-							Students
+							студенти
 						</Link>
 						<Link
 							component={NavLink}
@@ -68,7 +68,7 @@ export const Navbar = connect(
 							color="textPrimary"
 							href="#"
 							className={classes.link}>
-							instructors
+							інструктори
 						</Link>
 						<Link
 							component={NavLink}
@@ -77,7 +77,7 @@ export const Navbar = connect(
 							color="textPrimary"
 							href="#"
 							className={classes.link}>
-							Cars
+							автомобілі
 						</Link>
 					</nav>
 					<Button
@@ -88,7 +88,7 @@ export const Navbar = connect(
 							logoutUser();
 							history.push('/login');
 						}}>
-						Logout
+						вийти
 					</Button>
 				</Toolbar>
 			</AppBar>

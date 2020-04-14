@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-
 import { fetchAllGroups, deleteGroup } from './routines';
-
 import { DataTable } from '../../components';
 import { GroupForm } from './GroupForm';
-
 import { columns, title } from './enums';
 
 const mapStateToProps = (state) => ({

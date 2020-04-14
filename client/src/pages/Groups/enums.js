@@ -1,27 +1,27 @@
 export const categories = ['A', 'B', 'C', 'D', 'E'];
 export const columns = [
-	{ title: 'Number', field: 'number' },
-	{ title: 'Category', field: 'category' },
+	{ title: '№ групи', field: 'number' },
+	{ title: 'Категорія', field: 'category' },
 	{
-		title: 'Start',
+		title: 'Початок',
 		field: 'start',
 	},
 	{
-		title: 'End',
+		title: 'Кінець',
 		field: 'end',
 	},
 	{
-		title: 'Students',
+		title: 'Студенти',
 		field: 'students',
 	},
 	{
-		title: 'Instructors',
+		title: 'Інструктори',
 		field: 'instructors',
 	},
 	{
-		title: 'Cars',
+		title: 'Автомобілі',
 		field: 'cars',
 	},
 ];
 
-export const title = 'Groups';
+export const title = 'Групи';

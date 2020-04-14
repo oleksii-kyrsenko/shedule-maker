@@ -72,21 +72,20 @@ export const Auth = connect(
 					<LockOutlinedIcon />
 				</Avatar>
 				<Typography component="h1" variant="h5">
-					{!authMode ? 'Sign Up' : 'Sign In'}
+					{!authMode ? 'Зареєструватися' : 'Увійти'}
 				</Typography>
 				<form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
 					<Grid container spacing={2}>
 						{!authMode && (
 							<Grid item xs={12}>
 								<TextField
-									// inputRef={register({ required: true })}
 									inputRef={register}
 									variant="outlined"
 									fullWidth
 									id="name"
 									name="name"
 									type="text"
-									label="Company name"
+									label="Назва компанії"
 									error={!!errors.name}
 								/>
 							</Grid>
@@ -99,7 +98,7 @@ export const Auth = connect(
 								id="email"
 								name="email"
 								type="email"
-								label="Email Address"
+								label="Електронна пошта"
 								error={!!errors.email}
 							/>
 						</Grid>
@@ -111,7 +110,7 @@ export const Auth = connect(
 								name="password"
 								type="password"
 								id="password"
-								label="Password"
+								label="Пароль"
 								error={!!errors.password}
 							/>
 						</Grid>
@@ -122,12 +121,14 @@ export const Auth = connect(
 						variant="contained"
 						color="primary"
 						className={classes.submit}>
-						{!authMode ? 'Sign Up' : 'Sign In'}
+						{!authMode ? 'Зареєструватися' : 'Увійти'}
 					</Button>
 					<Grid container justify="flex-end">
 						<Grid item>
 							<Link href="#" onClick={changeAuthModeHahdle}>
-								{authMode ? "Don't have an account? Sign Up" : 'Already have an account?  Sign In'}
+								{authMode
+									? 'Не маєте облікового запису? Створити.'
+									: 'Маєте обліковий запис? Увійти.'}
 							</Link>
 						</Grid>
 					</Grid>

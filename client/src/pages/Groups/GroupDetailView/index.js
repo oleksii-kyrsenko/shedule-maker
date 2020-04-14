@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -8,6 +7,8 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { useStyles } from './styles';
+
+import { GroupStudentsPage } from '../../';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -40,14 +41,10 @@ function a11yProps(index) {
 export const GroupDetailView = () => {
 	const classes = useStyles();
 	const theme = useTheme();
-	const [value, setValue] = React.useState(0);
+	const [value, setValue] = useState(0);
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
-	};
-
-	const handleChangeIndex = (index) => {
-		setValue(index);
 	};
 
 	return (
@@ -69,15 +66,12 @@ export const GroupDetailView = () => {
 					<Tab label="Cars" {...a11yProps(3)} />
 				</Tabs>
 			</AppBar>
-			<SwipeableViews
-				axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-				index={value}
-				onChangeIndex={handleChangeIndex}>
+			<div>
 				<TabPanel value={value} index={0} dir={theme.direction}>
 					Shedule
 				</TabPanel>
 				<TabPanel value={value} index={1} dir={theme.direction}>
-					Students
+					<GroupStudentsPage />
 				</TabPanel>
 				<TabPanel value={value} index={2} dir={theme.direction}>
 					Instructors
@@ -85,7 +79,7 @@ export const GroupDetailView = () => {
 				<TabPanel value={value} index={3} dir={theme.direction}>
 					Cars
 				</TabPanel>
-			</SwipeableViews>
+			</div>
 		</div>
 	);
 };

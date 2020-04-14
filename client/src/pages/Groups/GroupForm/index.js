@@ -91,7 +91,7 @@ export const GroupForm = connect(
 				<CssBaseline />
 				<div className={classes.paper}>
 					<Typography component="h1" variant="h5" className={classes.title}>
-						{modalData ? 'Edit group' : 'Create group'}
+						{modalData ? 'Редагувати групу' : 'Створити групу'}
 					</Typography>
 					<form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
 						<Grid container spacing={2}>
@@ -103,20 +103,20 @@ export const GroupForm = connect(
 									id="number"
 									name="number"
 									type="text"
-									label="Group number"
+									label="Номер групи"
 									error={!!errors.number}
 								/>
 							</Grid>
 							<Grid item xs={6}>
 								<FormControl variant="outlined" className={classes.formControl} fullWidth>
-									<InputLabel id="category-label">Group category</InputLabel>
+									<InputLabel id="category-label">Категорія</InputLabel>
 									<Controller
 										error={!!errors.category}
 										as={Select}
 										name="category"
 										labelId="category-label"
 										id="category"
-										label="Group category"
+										label="Категорія"
 										control={control}
 										onChange={([selected]) => {
 											return selected;
@@ -138,7 +138,7 @@ export const GroupForm = connect(
 									inputRef={register}
 									fullWidth
 									id="start"
-									label="Start"
+									label="Початок"
 									type="date"
 									name="start"
 									InputLabelProps={{
@@ -153,7 +153,7 @@ export const GroupForm = connect(
 									inputRef={register}
 									fullWidth
 									id="end"
-									label="End"
+									label="Кінець"
 									type="date"
 									name="end"
 									InputLabelProps={{
@@ -171,7 +171,7 @@ export const GroupForm = connect(
 							variant="contained"
 							color="primary"
 							className={classes.submit}>
-							Submit
+							Підтвердити
 						</Button>
 					</form>
 				</div>
