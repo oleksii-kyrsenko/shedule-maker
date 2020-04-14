@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import XLSX from 'xlsx';
 import { makeExelColumns } from '../../helpers/makeExelColumns';
-import { SheetJSFT } from './types';
-import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-
-const useStyles = makeStyles((theme) => ({
-	root: {
-		'& > *': {
-			margin: theme.spacing(1),
-			width: '25ch',
-		},
-	},
-}));
+import { useForm } from 'react-hook-form';
+import { connect } from 'react-redux';
+import { setErrorsArray } from '../../helpers/setErrorsArray';
+import { useStyles } from './styles';
 
 export const ExelFileReader = (props) => {
 	const classes = useStyles();
+	const { register, errors, handleSubmit } = useForm();
 
 	const [state, setState] = useState({
 		file: null,
@@ -75,29 +72,44 @@ export const ExelFileReader = (props) => {
 		}
 	};
 
-	return (
-		<div>
-			<label htmlFor="file">Upload an excel to Process Triggers</label>
-			<br />
-			<TextField
-				type="file"
-				id="file"
-				accept={SheetJSFT}
-				onChange={handleChange}
-				id="file"
-				variant="outlined"
-			/>
-			<br />
+	const onSubmit = () => {
+		console.log(state.data);
+	};
 
-			{state.data && (
-				<input
-					type="submit"
-					value="Submit"
-					onClick={() => {
-						console.log(state.data);
-					}}
-				/>
-			)}
+	return (
+		<div className={classes.paper}>
+			<Typography component="h1" variant="h5">
+				Завантажити з файлу
+			</Typography>
+			<form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
+				<Grid container spacing={2}>
+					<Grid item xs={12}>
+						<TextField
+							inputRef={register}
+							variant="outlined"
+							fullWidth
+							id="file"
+							name="file"
+							type="file"
+							error={!!errors.file}
+							onChange={handleChange}
+						/>
+					</Grid>
+
+					{state.data && (
+						<Grid item xs={12}>
+							<Button
+								type="submit"
+								fullWidth
+								variant="contained"
+								color="primary"
+								className={classes.submit}>
+								Submit
+							</Button>
+						</Grid>
+					)}
+				</Grid>
+			</form>
 		</div>
 	);
 };
