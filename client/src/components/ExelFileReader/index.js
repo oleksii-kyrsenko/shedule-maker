@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import XLSX from 'xlsx';
 import { makeExelColumns } from '../../helpers/makeExelColumns';
 import { SheetJSFT } from './types';
@@ -20,44 +20,58 @@ export const ExelFileReader = (props) => {
 	const [state, setState] = useState({
 		file: null,
 		data: null,
-		cols: [],
+		cols: null,
 	});
 
-	console.log(state.data);
+	useEffect(() => {
+		state.file && getFileData();
+	}, [state.file]);
 
 	const handleChange = (e) => {
-		const files = e.target.files;
-		if (files && files[0])
+		try {
+			const files = e.target.files;
+			if (!files || !files[0]) {
+				setState((prev) => {
+					return { ...prev, file: null, data: null, cols: null };
+				});
+				throw new Error('No file');
+			}
 			setState((prev) => {
 				return { ...prev, file: files[0] };
 			});
+		} catch (error) {
+			console.error(error.message);
+		}
 	};
 
-	const handleFile = () => {
-		/* Boilerplate to set up FileReader */
-		const reader = new FileReader();
-		const rABS = !!reader.readAsBinaryString;
+	const getFileData = () => {
+		try {
+			/* Boilerplate to set up FileReader */
+			const reader = new FileReader();
+			const rABS = !!reader.readAsBinaryString;
 
-		reader.onload = (e) => {
-			/* Parse data */
-			const bstr = e.target.result;
-			const wb = XLSX.read(bstr, { type: rABS ? 'binary' : 'array', bookVBA: true });
-			/* Get first worksheet */
-			const wsname = wb.SheetNames[0];
-			const ws = wb.Sheets[wsname];
-			/* Convert array of arrays */
-			const data = XLSX.utils.sheet_to_json(ws);
-			/* Update state */
-			setState((prev) => {
-				return { ...prev, data: data, cols: makeExelColumns(ws['!ref']) };
-			});
-			console.log(state.data);
-		};
+			reader.onload = (e) => {
+				/* Parse data */
+				const bstr = e.target.result;
+				const wb = XLSX.read(bstr, { type: rABS ? 'binary' : 'array', bookVBA: true });
+				/* Get first worksheet */
+				const wsname = wb.SheetNames[0];
+				const ws = wb.Sheets[wsname];
+				/* Convert array of arrays */
+				const data = XLSX.utils.sheet_to_json(ws);
+				/* Update state */
+				setState((prev) => {
+					return { ...prev, data: data, cols: makeExelColumns(ws['!ref']) };
+				});
+			};
 
-		if (rABS) {
-			reader.readAsBinaryString(state.file);
-		} else {
-			reader.readAsArrayBuffer(state.file);
+			if (rABS) {
+				reader.readAsBinaryString(state.file);
+			} else {
+				reader.readAsArrayBuffer(state.file);
+			}
+		} catch (error) {
+			console.error(error.message);
 		}
 	};
 
@@ -70,24 +84,17 @@ export const ExelFileReader = (props) => {
 				id="file"
 				accept={SheetJSFT}
 				onChange={handleChange}
-				id="outlined-basic"
-				// label="Outlined"
+				id="file"
 				variant="outlined"
 			/>
 			<br />
-			<input
-				type="submit"
-				value="Process Triggers"
-				onClick={() => {
-					state.file ? handleFile() : console.log(null);
-				}}
-			/>
+
 			{state.data && (
 				<input
 					type="submit"
-					value="Process Triggers"
+					value="Submit"
 					onClick={() => {
-						state.file ? handleFile() : console.log(null);
+						console.log(state.data);
 					}}
 				/>
 			)}
