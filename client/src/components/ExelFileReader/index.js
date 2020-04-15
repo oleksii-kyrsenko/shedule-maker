@@ -10,11 +10,11 @@ import { connect } from 'react-redux';
 import { setErrorsArray } from '../../helpers/setErrorsArray';
 import { useStyles } from './styles';
 
+import { checkExtRegex, types, checkFileExtension } from '../../helpers/checkExtension';
+
 export const ExelFileReader = (props) => {
 	const classes = useStyles();
 	const { register, errors, handleSubmit } = useForm();
-	const checkExtRegex = /\.(.+)$/;
-	const types = ['xls', 'xlsx', 'csv'];
 
 	const [state, setState] = useState({
 		file: null,
@@ -26,15 +26,11 @@ export const ExelFileReader = (props) => {
 		state.file && getFileData();
 	}, [state.file]);
 
-	const checkExtension = (re, types, string) => {
-		return types.includes(re.exec(string)[1]);
-	};
-
 	const handleChange = (e) => {
 		try {
 			const files = e.target.files;
 			console.log(files[0].name);
-			if (!files || !files[0] || !checkExtension(checkExtRegex, types, files[0].name)) {
+			if (!files || !files[0] || !checkFileExtension(checkExtRegex, types, files[0].name)) {
 				setState((prev) => {
 					return { ...prev, file: null, data: null, cols: null };
 				});
