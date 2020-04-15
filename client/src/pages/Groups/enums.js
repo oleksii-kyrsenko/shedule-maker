@@ -3,11 +3,11 @@ export const columns = [
 	{ title: '№ групи', field: 'number' },
 	{ title: 'Категорія', field: 'category' },
 	{
-		title: 'Початок',
+		title: 'Початок занять',
 		field: 'start',
 	},
 	{
-		title: 'Кінець',
+		title: 'Кінець занять',
 		field: 'end',
 	},
 	{
