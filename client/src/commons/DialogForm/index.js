@@ -5,6 +5,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Paper from '@material-ui/core/Paper';
+
+import { useStyles } from './styles';
 import { connect } from 'react-redux';
 import { setDialogStatus } from '../routines';
 
@@ -20,30 +23,33 @@ export const DialogForm = connect(
 	mapStateToProps,
 	actionCreators
 )(({ isDialogOpen, setDialogStatus, dialogData, action }) => {
+	const classes = useStyles();
 	const handleClose = () => {
 		setDialogStatus(false);
 	};
 
 	return (
 		<>
-			<Dialog fullWidth open={isDialogOpen} onClose={handleClose}>
-				<DialogTitle>{dialogData.title}</DialogTitle>
-				<DialogContent>
-					<DialogContentText>{dialogData.body}</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button autoFocus onClick={handleClose} color="primary">
-						No
-					</Button>
-					<Button
-						onClick={() => {
-							action(dialogData.id);
-							handleClose();
-						}}
-						color="primary">
-						Yes
-					</Button>
-				</DialogActions>
+			<Dialog open={isDialogOpen} onClose={handleClose}>
+				<div className={classes.root}>
+					<DialogTitle className={classes.title}>{dialogData.title}</DialogTitle>
+					<DialogContent className={classes.body}>
+						<DialogContentText>{dialogData.body}</DialogContentText>
+					</DialogContent>
+					<DialogActions>
+						<Button autoFocus onClick={handleClose} color="primary">
+							Ні
+						</Button>
+						<Button
+							onClick={() => {
+								action(dialogData.id);
+								handleClose();
+							}}
+							color="primary">
+							Так
+						</Button>
+					</DialogActions>
+				</div>
 			</Dialog>
 		</>
 	);

@@ -56,12 +56,34 @@ export const DataTable = connect(
 		return (
 			<>
 				<MaterialTable
+					localization={{
+						pagination: {
+							labelDisplayedRows: '{from}-{to} з {count}',
+							labelRowsSelect: 'рядків',
+						},
+						toolbar: {
+							nRowsSelected: '{0} row(s) selected',
+							searchPlaceholder: 'Знайти',
+						},
+						header: {
+							actions: 'Дії',
+						},
+						body: {
+							emptyDataSourceMessage: 'Немає даних для відображення',
+							filterRow: {
+								filterTooltip: 'Фільтр',
+							},
+						},
+						grouping: {
+							placeholder: 'Перетягніть заголовки сюди для групування',
+						},
+					}}
 					components={{
 						Pagination: (props) => {
 							return (
 								<TablePagination
 									{...props}
-									rowsPerPageOptions={[5, 10, 30, { label: 'All', value: props.count }]}
+									rowsPerPageOptions={[5, 10, 30, { label: 'Показати всі', value: props.count || '0' }]}
 								/>
 							);
 						},
@@ -72,14 +94,14 @@ export const DataTable = connect(
 					actions={[
 						{
 							icon: 'visibility',
-							tooltip: 'Details',
+							tooltip: 'Детально',
 							onClick: (event, rowData) => {
 								history.push(`${history.location.pathname}/${rowData._id}`);
 							},
 						},
 						{
 							icon: 'edit',
-							tooltip: 'Edit',
+							tooltip: 'Редагувати',
 							onClick: (event, rowData) => {
 								setModalData(rowData);
 								setModalStatus(true);
@@ -87,12 +109,12 @@ export const DataTable = connect(
 						},
 						{
 							icon: 'delete',
-							tooltip: 'Delete',
+							tooltip: 'Видалити',
 							onClick: (event, rowData) => {
 								setDialogStatus(true);
 								setDialogData({
-									title: 'Deletion',
-									body: `Delete group № ${rowData.number}?
+									title: 'Видалення.',
+									body: `Видалити групу № ${rowData.number}?
 								`,
 									id: rowData._id,
 								});
