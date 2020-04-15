@@ -96,18 +96,17 @@ export const ExelFileReader = (props) => {
 						/>
 					</Grid>
 
-					{state.data && (
-						<Grid item xs={12}>
-							<Button
-								type="submit"
-								fullWidth
-								variant="contained"
-								color="primary"
-								className={classes.submit}>
-								Submit
-							</Button>
-						</Grid>
-					)}
+					<Grid item xs={12}>
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							color="primary"
+							disabled={!state.data}
+							className={classes.submit}>
+							Submit
+						</Button>
+					</Grid>
 				</Grid>
 			</form>
 		</div>
