@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import Container from '@material-ui/core/Container';
+import { useStyles } from './styles';
 import { fetchAllGroups, deleteGroup } from './routines';
 import { DataTable } from '../../components';
 import { GroupForm } from './GroupForm';
@@ -18,6 +20,8 @@ export const Groups = connect(
 	mapStateToProps,
 	actionCreators
 )(({ fetchAllGroups, deleteGroup, groups, isAuth }) => {
+	const classes = useStyles();
+
 	const [data, setData] = useState([]);
 	const actions = {
 		deleteItem: deleteGroup,
@@ -46,8 +50,10 @@ export const Groups = connect(
 	}, [groups]);
 
 	return (
-		<DataTable columns={columns} data={data} actions={actions} title={title}>
-			<GroupForm />
-		</DataTable>
+		<Container maxWidth="fluid" className={classes.root}>
+			<DataTable columns={columns} data={data} actions={actions} title={title}>
+				<GroupForm />
+			</DataTable>
+		</Container>
 	);
 });
