@@ -50,7 +50,7 @@ export const Groups = connect(
 	}, [groups]);
 
 	return (
-		<Container maxWidth="fluid" className={classes.root}>
+		<Container maxWidth={false} className={classes.root}>
 			<DataTable columns={columns} data={data} actions={actions} title={title}>
 				<GroupForm />
 			</DataTable>
