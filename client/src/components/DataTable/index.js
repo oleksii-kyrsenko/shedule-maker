@@ -60,10 +60,22 @@ export const DataTable = connect(
 						pagination: {
 							labelDisplayedRows: '{from}-{to} з {count}',
 							labelRowsSelect: 'рядків',
+							firstAriaLabel: 'Перша сторінка',
+							firstTooltip: 'Перша сторінка',
+							previousAriaLabel: 'Попередня сторінка',
+							previousTooltip: 'Попередня сторінка',
+							nextAriaLabel: 'Наступна сторінка',
+							nextTooltip: 'Наступна сторінка',
+							lastAriaLabel: 'Остання сторінка',
+							lastTooltip: 'Остання сторінка',
 						},
 						toolbar: {
 							nRowsSelected: '{0} row(s) selected',
 							searchPlaceholder: 'Знайти',
+							searchTooltip: 'Знайти',
+							exportTitle: 'Експорт',
+							exportAriaLabel: 'Експорт',
+							exportName: 'Експортувати як CSV',
 						},
 						header: {
 							actions: 'Дії',
@@ -83,13 +95,19 @@ export const DataTable = connect(
 							return (
 								<TablePagination
 									{...props}
-									rowsPerPageOptions={[5, 10, 30, { label: 'Показати всі', value: props.count || '0' }]}
+									rowsPerPageOptions={[
+										5,
+										10,
+										30,
+										{ label: 'Показати всі', value: props.count || '0' },
+									]}
 								/>
 							);
 						},
 					}}
 					options={{
 						grouping: true,
+						exportButton: true,
 					}}
 					actions={[
 						{
