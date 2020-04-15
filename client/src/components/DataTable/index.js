@@ -58,7 +58,7 @@ export const DataTable = connect(
 				<MaterialTable
 					localization={{
 						pagination: {
-							labelDisplayedRows: '{from}-{to} з {count}',
+							labelDisplayedRows: 'Показано {from}-{to} з {count}',
 							labelRowsSelect: 'рядків',
 							firstAriaLabel: 'Перша сторінка',
 							firstTooltip: 'Перша сторінка',
