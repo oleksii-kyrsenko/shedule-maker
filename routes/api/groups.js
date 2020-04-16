@@ -240,13 +240,17 @@ router.delete('/:id', auth, async (req, res) => {
 
 router.post('/:groupId/file/students/', auth, async (req, res) => {
 	try {
-		let body = req.body.map((item) => {
-			return { ...item, user: req.user.id };
+		let dbStudents = await Student.find({
+			user: req.user.id,
+			passport: { $in: req.body.map((item) => item.passport) },
 		});
-		let dbStudents = await Student.find({ passport: { $in: body.map((item) => item.passport) } });
-		let newStudents = body.filter(
+		let newStudents = req.body.filter(
 			(item) => !dbStudents.map((item) => item.passport).includes(item.passport)
 		);
+
+		newStudents = newStudents.map((item) => {
+			return { ...item, user: req.user.id };
+		});
 
 		newStudents = await Student.insertMany(newStudents);
 
