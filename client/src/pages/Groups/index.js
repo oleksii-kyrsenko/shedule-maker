@@ -27,6 +27,8 @@ export const Groups = connect(
 		deleteItem: deleteGroup,
 	};
 
+	console.log(groups);
+
 	useEffect(() => {
 		isAuth && fetchAllGroups();
 	}, [fetchAllGroups, isAuth]);

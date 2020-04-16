@@ -22,10 +22,10 @@ const schema = new Schema({
 		ref: 'User',
 	},
 	students: [
-		// {
-		// 	type: Schema.Types.ObjectId,
-		// 	ref: 'Student',
-		// },
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'Student',
+		},
 	],
 	instructors: [
 		// {

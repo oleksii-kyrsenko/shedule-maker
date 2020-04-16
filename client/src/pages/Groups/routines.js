@@ -5,3 +5,4 @@ export const fetchGroupById = createRoutine('FETCH_GROUP_BY_ID');
 export const createGroup = createRoutine('CREATE_GROUP');
 export const editGroup = createRoutine('EDIT_GROUP');
 export const deleteGroup = createRoutine('DELETE_GROUP');
+export const addGroupStudentsFromFile = createRoutine('ADD_GROUP_STUDENTS_FROM_FILE');

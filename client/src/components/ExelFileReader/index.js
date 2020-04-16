@@ -6,13 +6,12 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
-import { connect } from 'react-redux';
-import { setErrorsArray } from '../../helpers/setErrorsArray';
 import { useStyles } from './styles';
 
 import { checkExtRegex, types, checkFileExtension } from '../../helpers/checkExtension';
+import { renameObjectKeys } from '../../helpers/renameObjectKeys';
 
-export const ExelFileReader = (props) => {
+export const ExelFileReader = ({ groupId, action, keys }) => {
 	const classes = useStyles();
 	const { register, errors, handleSubmit } = useForm();
 
@@ -29,7 +28,6 @@ export const ExelFileReader = (props) => {
 	const handleChange = (e) => {
 		try {
 			const files = e.target.files;
-			console.log(files[0].name);
 			if (!files || !files[0] || !checkFileExtension(checkExtRegex, types, files[0].name)) {
 				setState((prev) => {
 					return { ...prev, file: null, data: null, cols: null };
@@ -58,7 +56,10 @@ export const ExelFileReader = (props) => {
 				const wsname = wb.SheetNames[0];
 				const ws = wb.Sheets[wsname];
 				/* Convert array of arrays */
-				const data = XLSX.utils.sheet_to_json(ws);
+				let data = XLSX.utils.sheet_to_json(ws);
+				/*Rename keys*/
+
+				data = renameObjectKeys(data, keys);
 				/* Update state */
 				setState((prev) => {
 					return { ...prev, data: data, cols: makeExelColumns(ws['!ref']) };
@@ -76,7 +77,8 @@ export const ExelFileReader = (props) => {
 	};
 
 	const onSubmit = () => {
-		console.log(state.data);
+		const payload = { groupId, data: state.data };
+		action(payload);
 	};
 
 	return (

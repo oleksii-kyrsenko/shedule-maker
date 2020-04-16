@@ -24,3 +24,25 @@ export const columns = [
 ];
 
 export const title = 'Студенти';
+
+export const studentKeys = (key) => {
+	switch (key.trim()) {
+		case '№ з/п':
+			return 'sequenceNumber';
+		case 'Прізвище, ім я, по батькові':
+			return 'fullName';
+		case 'Дата народження':
+			return 'dateOfBirth';
+		case 'РНОКПП':
+			return 'personalTaxNumber';
+		case 'Паспорт (серія, №)':
+			return 'passport';
+		case 'Медична довідка (серія, №)':
+			return 'medSertificate';
+		case 'Реєстрація місця проживання':
+			return 'adress';
+
+		default:
+			return key;
+	}
+};

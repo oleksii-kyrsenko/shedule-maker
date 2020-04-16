@@ -1,4 +1,10 @@
-import { fetchAllGroups, createGroup, editGroup, fetchGroupById } from './routines';
+import {
+	fetchAllGroups,
+	createGroup,
+	editGroup,
+	fetchGroupById,
+	addGroupStudentsFromFile,
+} from './routines';
 
 import { logoutUser } from '../../commons/routines';
 

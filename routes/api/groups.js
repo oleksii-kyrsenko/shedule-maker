@@ -5,6 +5,7 @@ const { check, validationResult } = require('express-validator');
 const auth = require('../../middleware/auth');
 
 const Group = require('../../models/group');
+const Student = require('../../models/student');
 
 // @route    POST api/groups
 // @desc     Create group
@@ -154,7 +155,8 @@ router.get('/', auth, async (req, res) => {
 			user: req.user.id,
 		})
 			.sort({ date: -1 })
-			.populate('user', ['name']);
+			.populate('user', ['name'])
+			.populate('students');
 
 		if (!groups.length) {
 			return res.status(404).json({
@@ -229,6 +231,40 @@ router.delete('/:id', auth, async (req, res) => {
 		res.status(500).json({
 			errors: [{ msg: 'Server Error' }],
 		});
+	}
+});
+
+// @route    POST api/groups/:groupId/file/students/
+// @desc     add students to group from file
+// @access   Private
+
+router.post('/:groupId/file/students/', auth, async (req, res) => {
+	try {
+		let body = req.body.map((item) => {
+			return { ...item, user: req.user.id };
+		});
+		let dbStudents = await Student.find({ passport: { $in: body.map((item) => item.passport) } });
+		let newStudents = body.filter(
+			(item) => !dbStudents.map((item) => item.passport).includes(item.passport)
+		);
+
+		newStudents = await Student.insertMany(newStudents);
+
+		let allStudentsIds = [...dbStudents, ...newStudents].map((item) => item._id);
+
+		let group = await Group.findOneAndUpdate(
+			{ user: req.user.id, _id: req.params.groupId },
+			{
+				$set: {
+					students: allStudentsIds,
+				},
+			},
+			{ new: true }
+		);
+		await group.save();
+		res.json(group);
+	} catch (error) {
+		console.error('error', error.message);
 	}
 });
 

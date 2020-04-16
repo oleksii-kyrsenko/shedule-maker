@@ -1,7 +1,14 @@
 import axios from 'axios';
 import { put, all, takeEvery } from 'redux-saga/effects';
 
-import { fetchAllGroups, createGroup, deleteGroup, editGroup, fetchGroupById } from './routines';
+import {
+	fetchAllGroups,
+	createGroup,
+	deleteGroup,
+	editGroup,
+	fetchGroupById,
+	addGroupStudentsFromFile,
+} from './routines';
 import { loadData, errorData, successData, clearMessages } from '../../commons/routines';
 
 function* fetchAllGroupsSaga() {
@@ -78,6 +85,18 @@ function* fetchGroupByIdSaga({ payload }) {
 	}
 }
 
+function* addGroupStudentsFromFileSaga({ payload }) {
+	try {
+		const { groupId, data } = payload;
+		const response = yield axios.post(`/api/groups/${groupId}/file/students/`, data);
+		console.log(response);
+	} catch (error) {
+		const errors = error.response.data.errors;
+		console.log(errors);
+	} finally {
+	}
+}
+
 function* fetchAllGroupsWatcherSaga() {
 	yield takeEvery(fetchAllGroups.TRIGGER, fetchAllGroupsSaga);
 }
@@ -98,6 +117,10 @@ function* fetchGroupByIdWatcherSaga() {
 	yield takeEvery(fetchGroupById.TRIGGER, fetchGroupByIdSaga);
 }
 
+function* addGroupStudentsFromFileWatcherSaga() {
+	yield takeEvery(addGroupStudentsFromFile.TRIGGER, addGroupStudentsFromFileSaga);
+}
+
 export function* groupsSagas() {
 	yield all([
 		fetchAllGroupsWatcherSaga(),
@@ -105,5 +128,6 @@ export function* groupsSagas() {
 		deleteGroupWatcherSaga(),
 		editGroupWatcherSaga(),
 		fetchGroupByIdWatcherSaga(),
+		addGroupStudentsFromFileWatcherSaga(),
 	]);
 }
