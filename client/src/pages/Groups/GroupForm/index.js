@@ -23,7 +23,7 @@ const schema = yup.object().shape({
 	number: yup.string().required('Group number is required'),
 	start: yup.string().required('Start date is required'),
 	end: yup.string().required('End date is required'),
-	category: yup.string().required('Group category is required').max(1),
+	category: yup.string().required('Group category is required'),
 });
 
 const mapStateToProps = (state) => ({
