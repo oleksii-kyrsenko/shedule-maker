@@ -1,4 +1,4 @@
-import { normalizeKey } from '../../../helpers/normalizeKey';
+import { normalizeKey } from '../../../helpers/normalizeString';
 
 export const columns = [
 	{ title: '№ з/п', field: 'sequenceNumber' },

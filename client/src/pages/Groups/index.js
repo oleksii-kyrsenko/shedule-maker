@@ -6,6 +6,8 @@ import { fetchAllGroups, deleteGroup, fetchGroupById } from './routines';
 import { DataTable } from '../../components';
 import { GroupForm } from './GroupForm';
 import { columns, title } from './enums';
+import {normalizeDate } from '../../helpers/normalizeString';
+
 
 const mapStateToProps = (state) => ({
 	groups: state.groupsReducer.groups,
@@ -43,8 +45,8 @@ export const Groups = connect(
 						students: item.students.length,
 						instructors: item.instructors.length,
 						cars: item.cars.length,
-						start: new Date(item.start).toLocaleDateString(),
-						end: new Date(item.end).toLocaleDateString(),
+						start: normalizeDate(item.start),
+						end: normalizeDate(item.end),
 					},
 				]);
 			});
