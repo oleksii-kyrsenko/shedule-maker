@@ -9,6 +9,7 @@ import {
 	fetchGroupById,
 	addGroupStudentsFromFile,
 	addGroupInstructorsFromFile,
+	addGroupCarsFromFile,
 } from './routines';
 import {
 	loadData,
@@ -130,6 +131,24 @@ function* addGroupInstructorsFromFileSaga({ payload }) {
 	}
 }
 
+function* addGroupCarsFromFileSaga({ payload }) {
+	try {
+		yield all([put(loadData.request()), put(addGroupCarsFromFile.request())]);
+		const { groupId, data } = payload;
+		const response = yield axios.post(`/api/groups/${groupId}/file/cars/`, data);
+		yield all([
+			put(setModalStatus(false)),
+			put(addGroupCarsFromFile.success(response.data.group)),
+			put(successData(response.data.success)),
+		]);
+	} catch (error) {
+		const errors = error.response.data.errors;
+		yield all([put(errorData.trigger(errors))]);
+	} finally {
+		yield put(loadData.fulfill());
+	}
+}
+
 function* fetchAllGroupsWatcherSaga() {
 	yield takeEvery(fetchAllGroups.TRIGGER, fetchAllGroupsSaga);
 }
@@ -158,6 +177,10 @@ function* addGroupInstructorsFromFileWatcherSaga() {
 	yield takeEvery(addGroupInstructorsFromFile.TRIGGER, addGroupInstructorsFromFileSaga);
 }
 
+function* addGroupCarsFromFileWatcherSaga() {
+	yield takeEvery(addGroupCarsFromFile.TRIGGER, addGroupCarsFromFileSaga);
+}
+
 export function* groupsSagas() {
 	yield all([
 		fetchAllGroupsWatcherSaga(),
@@ -167,5 +190,6 @@ export function* groupsSagas() {
 		fetchGroupByIdWatcherSaga(),
 		addGroupStudentsFromFileWatcherSaga(),
 		addGroupInstructorsFromFileWatcherSaga(),
+		addGroupCarsFromFileWatcherSaga(),
 	]);
 }

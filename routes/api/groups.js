@@ -8,6 +8,7 @@ const auth = require('../../middleware/auth');
 const Group = require('../../models/group');
 const Student = require('../../models/student');
 const Instructor = require('../../models/instructor');
+const Car = require('../../models/car');
 
 // @route    POST api/groups
 // @desc     Create group
@@ -48,7 +49,11 @@ router.post(
 				start,
 				end,
 				category: category.toUpperCase().trim(),
-			});
+			})
+				.populate('user', ['name'])
+				.populate('students')
+				.populate('instructors')
+				.populate('cars');
 
 			await group.save();
 			res.json({ group, success: [{ msg: 'Group created succesful' }] });
@@ -129,7 +134,11 @@ router.put(
 					},
 				},
 				{ new: true }
-			);
+			)
+				.populate('user', ['name'])
+				.populate('students')
+				.populate('instructors')
+				.populate('cars');
 
 			await group.save();
 			res.json({ group, success: [{ msg: 'Group updated succesful' }] });
@@ -156,9 +165,10 @@ router.get('/', auth, async (req, res) => {
 		const groups = await Group.find({
 			user: req.user.id,
 		})
-			.sort({ date: -1 })
 			.populate('user', ['name'])
-			.populate('students');
+			.populate('students')
+			.populate('instructors')
+			.populate('cars');
 
 		if (!groups.length) {
 			return res.status(404).json({
@@ -192,6 +202,7 @@ router.get('/:id', auth, async (req, res) => {
 			.populate('user', ['name'])
 			.populate('students')
 			.populate('instructors')
+			.populate('cars');
 
 		// Check for ObjectId format and group
 		if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !group) {
@@ -286,10 +297,14 @@ router.post('/:groupId/file/students/', auth, async (req, res) => {
 				},
 			},
 			{ new: true }
-		).populate('students').populate('instructors');
+		)
+			.populate('user', ['name'])
+			.populate('students')
+			.populate('instructors')
+			.populate('cars');
 		await group.save();
 
-		res.json({ group, success: [{ msg: 'Group students udated succesful' }] });
+		res.json({ group, success: [{ msg: 'Group students updated succesful' }] });
 	} catch (error) {
 		console.error(error.message);
 		if (error.kind === 'ObjectId') {
@@ -348,11 +363,15 @@ router.post('/:groupId/file/instructors/', auth, async (req, res) => {
 				},
 			},
 			{ new: true }
-		).populate('instructors').populate('students');
+		)
+			.populate('user', ['name'])
+			.populate('students')
+			.populate('instructors')
+			.populate('cars');
 
 		await group.save();
 
-		res.json({ group, success: [{ msg: 'Group instructors udated succesful' }] });
+		res.json({ group, success: [{ msg: 'Group instructors updated succesful' }] });
 	} catch (error) {
 		console.error(error.message);
 		if (error.kind === 'ObjectId') {
@@ -363,4 +382,71 @@ router.post('/:groupId/file/instructors/', auth, async (req, res) => {
 		});
 	}
 });
+
+// @route    POST api/groups/:groupId/file/cars/
+// @desc     add cars to group from file
+// @access   Private
+
+router.post('/:groupId/file/cars/', auth, async (req, res) => {
+	try {
+		const dbCars = await Car.find({
+			user: req.user.id,
+			number: { $in: req.body.map((item) => item.number) },
+		});
+
+		let newCars = req.body.filter(
+			(item) => !dbCars.map((item) => item.number).includes(item.number)
+		);
+
+		newCars = newCars.map((item) => {
+			return { ...item, user: req.user.id };
+		});
+
+		newCars = await Car.insertMany(newCars);
+
+		let group = await Group.findOne({
+			user: req.user.id,
+			_id: req.params.groupId,
+		});
+
+		// Check for ObjectId format and group
+		if (!req.params.groupId.match(/^[0-9a-fA-F]{24}$/) || !group) {
+			return res.status(404).json({ errors: [{ msg: 'Group not found' }] });
+		}
+
+		const cars = [
+			...new Set([
+				...group.cars.map((item) => Types.ObjectId(item).toString()),
+				...dbCars.map((item) => Types.ObjectId(item._id).toString()),
+				...newCars.map((item) => Types.ObjectId(item._id).toString()),
+			]),
+		];
+
+		group = await Group.findOneAndUpdate(
+			{ user: req.user.id, _id: req.params.groupId },
+			{
+				$set: {
+					cars,
+				},
+			},
+			{ new: true }
+		)
+			.populate('user', ['name'])
+			.populate('students')
+			.populate('instructors')
+			.populate('cars');
+		await group.save();
+
+		res.json({ group, success: [{ msg: 'Group cars updated succesful' }] });
+	} catch (error) {
+		console.error(error.message);
+		if (error.kind === 'ObjectId') {
+			return res.status(404).json({ errors: [{ msg: 'Group not found' }] });
+		}
+		res.status(500).json({
+			errors: [{ msg: 'Server Error' }],
+		});
+	}
+});
+
 module.exports = router;

@@ -7,3 +7,4 @@ export const editGroup = createRoutine('EDIT_GROUP');
 export const deleteGroup = createRoutine('DELETE_GROUP');
 export const addGroupStudentsFromFile = createRoutine('ADD_GROUP_STUDENTS_FROM_FILE');
 export const addGroupInstructorsFromFile = createRoutine('ADD_GROUP_INSTRUCTORS_FROM_FILE');
+export const addGroupCarsFromFile = createRoutine('ADD_GROUP_CARS_FROM_FILE');

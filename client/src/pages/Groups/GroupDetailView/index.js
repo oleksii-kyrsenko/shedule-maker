@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { useStyles } from './styles';
 import { connect } from 'react-redux';
-import { GroupStudentsPage, GroupInstructorsPage } from '../../';
+import { GroupStudentsPage, GroupInstructorsPage, GroupCarsPage } from '../../';
 
 import { fetchGroupById } from '../routines';
 
@@ -90,7 +90,7 @@ export const GroupDetailView = connect(
 					<GroupInstructorsPage />
 				</TabPanel>
 				<TabPanel value={value} index={3} dir={theme.direction}>
-					Cars
+					<GroupCarsPage />
 				</TabPanel>
 			</div>
 		</div>
