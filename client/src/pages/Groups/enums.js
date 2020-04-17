@@ -1,4 +1,4 @@
-export const categories = ['A', 'B', 'C', 'D', 'E'];
+export const categories = ['A1','A', 'B','BC', 'C','D1', 'D','BE','C1E', 'CE'];
 export const columns = [
 	{ title: '№ групи', field: 'number' },
 	{ title: 'Категорія', field: 'category' },
