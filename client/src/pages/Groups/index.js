@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Container from '@material-ui/core/Container';
 import { useStyles } from './styles';
-import { fetchAllGroups, deleteGroup } from './routines';
+import { fetchAllGroups, deleteGroup, fetchGroupById } from './routines';
 import { DataTable } from '../../components';
 import { GroupForm } from './GroupForm';
 import { columns, title } from './enums';
@@ -15,11 +15,12 @@ const mapStateToProps = (state) => ({
 const actionCreators = {
 	fetchAllGroups,
 	deleteGroup,
+	fetchGroupById,
 };
 export const Groups = connect(
 	mapStateToProps,
 	actionCreators
-)(({ fetchAllGroups, deleteGroup, groups, isAuth }) => {
+)(({ fetchAllGroups, deleteGroup, groups, isAuth, fetchGroupById }) => {
 	const classes = useStyles();
 
 	const [data, setData] = useState([]);

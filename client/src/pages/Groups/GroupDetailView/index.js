@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -7,8 +8,12 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { useStyles } from './styles';
+import { connect } from 'react-redux';
+import { GroupStudentsPage, GroupInstructorsPage, GroupCarsPage } from '../../';
 
-import { GroupStudentsPage } from '../../';
+import { fetchGroupById } from '../routines';
+
+const actionCreators = { fetchGroupById };
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -38,10 +43,18 @@ function a11yProps(index) {
 	};
 }
 
-export const GroupDetailView = () => {
+export const GroupDetailView = connect(
+	null,
+	actionCreators
+)(({ fetchGroupById }) => {
 	const classes = useStyles();
 	const theme = useTheme();
+	let { id } = useParams();
 	const [value, setValue] = useState(0);
+
+	useEffect(() => {
+		fetchGroupById(id);
+	}, [id, fetchGroupById]);
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
@@ -74,12 +87,12 @@ export const GroupDetailView = () => {
 					<GroupStudentsPage />
 				</TabPanel>
 				<TabPanel value={value} index={2} dir={theme.direction}>
-					Instructors
+					<GroupInstructorsPage />
 				</TabPanel>
 				<TabPanel value={value} index={3} dir={theme.direction}>
-					Cars
+					<GroupCarsPage />
 				</TabPanel>
 			</div>
 		</div>
 	);
-};
+});

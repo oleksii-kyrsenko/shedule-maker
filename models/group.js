@@ -22,22 +22,22 @@ const schema = new Schema({
 		ref: 'User',
 	},
 	students: [
-		// {
-		// 	type: Schema.Types.ObjectId,
-		// 	ref: 'Student',
-		// },
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'Student',
+		},
 	],
 	instructors: [
-		// {
-		// 	type: Schema.Types.ObjectId,
-		// 	ref: 'Instructor',
-		// },
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'Instructor',
+		},
 	],
 	cars: [
-		// {
-		// 	type: Schema.Types.ObjectId,
-		// 	ref: 'Car',
-		// },
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'Car',
+		},
 	],
 	shedule: [
 		// {

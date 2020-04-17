@@ -10,8 +10,8 @@ import { setAuthToken } from './helpers/setAuthToken';
 import { Preloader, Notify, Navbar } from './commons';
 
 const App = () => {
+	setAuthToken(localStorage.token);
 	useEffect(() => {
-		setAuthToken(localStorage.token);
 		if (localStorage.token) {
 			store.dispatch(fetchAuthUser());
 		}
