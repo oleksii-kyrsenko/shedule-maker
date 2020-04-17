@@ -1,6 +1,6 @@
 export const columns = [
 	{ title: '№ з/п', field: 'sequenceNumber' },
-	{ title: 'Прізвище, ім я, по батькові', field: 'fullName' },
+	{ title: 'Прізвище, ім’я, по батькові', field: 'fullName' },
 	{
 		title: 'Дата народження',
 		field: 'dateOfBirth',

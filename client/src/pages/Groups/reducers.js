@@ -4,6 +4,7 @@ import {
 	editGroup,
 	fetchGroupById,
 	addGroupStudentsFromFile,
+	addGroupInstructorsFromFile
 } from './routines';
 
 import { logoutUser } from '../../commons/routines';
@@ -32,6 +33,7 @@ export function groupsReducer(state = initialState, action) {
 		case editGroup.REQUEST:
 		case fetchGroupById.REQUEST:
 		case addGroupStudentsFromFile.REQUEST:
+		case addGroupInstructorsFromFile.REQUEST:
 			return {
 				...state,
 				group: null,
@@ -41,6 +43,7 @@ export function groupsReducer(state = initialState, action) {
 		case editGroup.SUCCESS:
 		case fetchGroupById.SUCCESS:
 		case addGroupStudentsFromFile.SUCCESS:
+		case addGroupInstructorsFromFile.SUCCESS:
 			return {
 				...state,
 				group: payload,

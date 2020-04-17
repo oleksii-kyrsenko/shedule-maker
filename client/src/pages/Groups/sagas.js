@@ -8,6 +8,7 @@ import {
 	editGroup,
 	fetchGroupById,
 	addGroupStudentsFromFile,
+	addGroupInstructorsFromFile,
 } from './routines';
 import {
 	loadData,
@@ -67,10 +68,10 @@ function* editGroupSaga({ payload }) {
 		const { id, data } = payload;
 		const response = yield axios.put(`/api/groups/${id}`, data);
 		yield all([
-			put(editGroup.success(response.data.group)),
-			put(successData(response.data.success)),
-			put(fetchAllGroups()),
 			put(setModalStatus(false)),
+			put(editGroup.success(response.data.group)),
+			put(fetchAllGroups()),
+			put(successData(response.data.success)),
 		]);
 	} catch (error) {
 		const errors = error.response.data.errors;
@@ -99,7 +100,26 @@ function* addGroupStudentsFromFileSaga({ payload }) {
 		const { groupId, data } = payload;
 		const response = yield axios.post(`/api/groups/${groupId}/file/students/`, data);
 		yield all([
+			put(setModalStatus(false)),
 			put(addGroupStudentsFromFile.success(response.data.group)),
+			put(successData(response.data.success)),
+		]);
+	} catch (error) {
+		const errors = error.response.data.errors;
+		yield all([put(errorData.trigger(errors))]);
+	} finally {
+		yield put(loadData.fulfill());
+	}
+}
+
+function* addGroupInstructorsFromFileSaga({ payload }) {
+	try {
+		yield all([put(loadData.request()), put(addGroupInstructorsFromFile.request())]);
+		const { groupId, data } = payload;
+		const response = yield axios.post(`/api/groups/${groupId}/file/instructors/`, data);
+		yield all([
+			put(setModalStatus(false)),
+			put(addGroupInstructorsFromFile.success(response.data.group)),
 			put(successData(response.data.success)),
 		]);
 	} catch (error) {
@@ -134,6 +154,10 @@ function* addGroupStudentsFromFileWatcherSaga() {
 	yield takeEvery(addGroupStudentsFromFile.TRIGGER, addGroupStudentsFromFileSaga);
 }
 
+function* addGroupInstructorsFromFileWatcherSaga() {
+	yield takeEvery(addGroupInstructorsFromFile.TRIGGER, addGroupInstructorsFromFileSaga);
+}
+
 export function* groupsSagas() {
 	yield all([
 		fetchAllGroupsWatcherSaga(),
@@ -142,5 +166,6 @@ export function* groupsSagas() {
 		editGroupWatcherSaga(),
 		fetchGroupByIdWatcherSaga(),
 		addGroupStudentsFromFileWatcherSaga(),
+		addGroupInstructorsFromFileWatcherSaga(),
 	]);
 }

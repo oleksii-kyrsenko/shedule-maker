@@ -7,6 +7,7 @@ const auth = require('../../middleware/auth');
 
 const Group = require('../../models/group');
 const Student = require('../../models/student');
+const Instructor = require('../../models/instructor');
 
 // @route    POST api/groups
 // @desc     Create group
@@ -189,7 +190,8 @@ router.get('/:id', auth, async (req, res) => {
 			_id: req.params.id,
 		})
 			.populate('user', ['name'])
-			.populate('students');
+			.populate('students')
+			.populate('instructors')
 
 		// Check for ObjectId format and group
 		if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !group) {
@@ -245,11 +247,11 @@ router.post('/:groupId/file/students/', auth, async (req, res) => {
 	try {
 		const dbStudents = await Student.find({
 			user: req.user.id,
-			passport: { $in: req.body.map((item) => item.passport) },
+			passport: { $in: req.body.map((item) => item.passport.trim()) },
 		});
 
 		let newStudents = req.body.filter(
-			(item) => !dbStudents.map((item) => item.passport).includes(item.passport)
+			(item) => !dbStudents.map((item) => item.passport.trim()).includes(item.passport.trim())
 		);
 
 		newStudents = newStudents.map((item) => {
@@ -284,7 +286,7 @@ router.post('/:groupId/file/students/', auth, async (req, res) => {
 				},
 			},
 			{ new: true }
-		).populate('students');
+		).populate('students').populate('instructors');
 		await group.save();
 
 		res.json({ group, success: [{ msg: 'Group students udated succesful' }] });
@@ -299,4 +301,66 @@ router.post('/:groupId/file/students/', auth, async (req, res) => {
 	}
 });
 
+// @route    POST api/groups/:groupId/file/instructors/
+// @desc     add instructors to group from file
+// @access   Private
+
+router.post('/:groupId/file/instructors/', auth, async (req, res) => {
+	try {
+		const dbInstructors = await Instructor.find({
+			user: req.user.id,
+			healthBook: { $in: req.body.map((item) => item.healthBook) },
+		});
+
+		let newInstructors = req.body.filter(
+			(item) => !dbInstructors.map((item) => item.healthBook).includes(item.healthBook)
+		);
+
+		newInstructors = newInstructors.map((item) => {
+			return { ...item, user: req.user.id };
+		});
+
+		newInstructors = await Instructor.insertMany(newInstructors);
+
+		let group = await Group.findOne({
+			user: req.user.id,
+			_id: req.params.groupId,
+		});
+
+		// Check for ObjectId format and group
+		if (!req.params.groupId.match(/^[0-9a-fA-F]{24}$/) || !group) {
+			return res.status(404).json({ errors: [{ msg: 'Group not found' }] });
+		}
+
+		const instructors = [
+			...new Set([
+				...group.instructors.map((item) => Types.ObjectId(item).toString()),
+				...dbInstructors.map((item) => Types.ObjectId(item._id).toString()),
+				...newInstructors.map((item) => Types.ObjectId(item._id).toString()),
+			]),
+		];
+
+		group = await Group.findOneAndUpdate(
+			{ user: req.user.id, _id: req.params.groupId },
+			{
+				$set: {
+					instructors,
+				},
+			},
+			{ new: true }
+		).populate('instructors').populate('students');
+
+		await group.save();
+
+		res.json({ group, success: [{ msg: 'Group instructors udated succesful' }] });
+	} catch (error) {
+		console.error(error.message);
+		if (error.kind === 'ObjectId') {
+			return res.status(404).json({ errors: [{ msg: 'Group not found' }] });
+		}
+		res.status(500).json({
+			errors: [{ msg: 'Server Error' }],
+		});
+	}
+});
 module.exports = router;

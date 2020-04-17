@@ -28,16 +28,16 @@ const schema = new Schema({
 		},
 	],
 	instructors: [
-		// {
-		// 	type: Schema.Types.ObjectId,
-		// 	ref: 'Instructor',
-		// },
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'Instructor',
+		},
 	],
 	cars: [
-		// {
-		// 	type: Schema.Types.ObjectId,
-		// 	ref: 'Car',
-		// },
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'Car',
+		},
 	],
 	shedule: [
 		// {
