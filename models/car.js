@@ -8,6 +8,9 @@ const schema = new Schema({
 	sequenceNumber: {
 		type: String,
 	},
+	brand: {
+		type: String,
+	},
 	category: {
 		type: String,
 	},
