@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const router = Router();
+const { Types } = require('mongoose');
 const { check, validationResult } = require('express-validator');
 
 const auth = require('../../middleware/auth');
@@ -186,7 +187,9 @@ router.get('/:id', auth, async (req, res) => {
 		const group = await Group.findOne({
 			user: req.user.id,
 			_id: req.params.id,
-		}).populate('user', ['name']);
+		})
+			.populate('user', ['name'])
+			.populate('students');
 
 		// Check for ObjectId format and group
 		if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !group) {
@@ -240,10 +243,11 @@ router.delete('/:id', auth, async (req, res) => {
 
 router.post('/:groupId/file/students/', auth, async (req, res) => {
 	try {
-		let dbStudents = await Student.find({
+		const dbStudents = await Student.find({
 			user: req.user.id,
 			passport: { $in: req.body.map((item) => item.passport) },
 		});
+
 		let newStudents = req.body.filter(
 			(item) => !dbStudents.map((item) => item.passport).includes(item.passport)
 		);
@@ -254,21 +258,44 @@ router.post('/:groupId/file/students/', auth, async (req, res) => {
 
 		newStudents = await Student.insertMany(newStudents);
 
-		let allStudentsIds = [...dbStudents, ...newStudents].map((item) => item._id);
+		let group = await Group.findOne({
+			user: req.user.id,
+			_id: req.params.groupId,
+		});
 
-		let group = await Group.findOneAndUpdate(
+		// Check for ObjectId format and group
+		if (!req.params.groupId.match(/^[0-9a-fA-F]{24}$/) || !group) {
+			return res.status(404).json({ errors: [{ msg: 'Group not found' }] });
+		}
+
+		const students = [
+			...new Set([
+				...group.students.map((item) => Types.ObjectId(item).toString()),
+				...dbStudents.map((item) => Types.ObjectId(item._id).toString()),
+				...newStudents.map((item) => Types.ObjectId(item._id).toString()),
+			]),
+		];
+
+		group = await Group.findOneAndUpdate(
 			{ user: req.user.id, _id: req.params.groupId },
 			{
 				$set: {
-					students: allStudentsIds,
+					students,
 				},
 			},
 			{ new: true }
-		);
+		).populate('students');
 		await group.save();
-		res.json(group);
+
+		res.json({ group, success: [{ msg: 'Group students udated succesful' }] });
 	} catch (error) {
-		console.error('error', error.message);
+		console.error(error.message);
+		if (error.kind === 'ObjectId') {
+			return res.status(404).json({ errors: [{ msg: 'Group not found' }] });
+		}
+		res.status(500).json({
+			errors: [{ msg: 'Server Error' }],
+		});
 	}
 });
 

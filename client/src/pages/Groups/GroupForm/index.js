@@ -75,15 +75,9 @@ export const GroupForm = connect(
 			errorsArray.length && errorData(errorsArray);
 		}, [errors, errorData]);
 
-		useEffect(() => {
-			flag && !isLoading && !errorMessages && setModalStatus(false);
-			// eslint-disable-next-line
-		}, [flag, isLoading]);
-
 		const onSubmit = (data) => {
 			clearMessages();
 			modalData ? editGroup({ id: modalData._id, data }) : createGroup(data);
-			setFlag(true);
 		};
 
 		return (

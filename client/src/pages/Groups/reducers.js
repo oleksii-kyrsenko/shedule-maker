@@ -31,6 +31,7 @@ export function groupsReducer(state = initialState, action) {
 		case createGroup.REQUEST:
 		case editGroup.REQUEST:
 		case fetchGroupById.REQUEST:
+		case addGroupStudentsFromFile.REQUEST:
 			return {
 				...state,
 				group: null,
@@ -39,6 +40,7 @@ export function groupsReducer(state = initialState, action) {
 		case createGroup.SUCCESS:
 		case editGroup.SUCCESS:
 		case fetchGroupById.SUCCESS:
+		case addGroupStudentsFromFile.SUCCESS:
 			return {
 				...state,
 				group: payload,

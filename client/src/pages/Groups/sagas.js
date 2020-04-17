@@ -9,7 +9,13 @@ import {
 	fetchGroupById,
 	addGroupStudentsFromFile,
 } from './routines';
-import { loadData, errorData, successData, clearMessages } from '../../commons/routines';
+import {
+	loadData,
+	errorData,
+	successData,
+	clearMessages,
+	setModalStatus,
+} from '../../commons/routines';
 
 function* fetchAllGroupsSaga() {
 	try {
@@ -32,6 +38,7 @@ function* createGroupSaga({ payload }) {
 			put(createGroup.success(response.data.group)),
 			put(successData(response.data.success)),
 			put(fetchAllGroups()),
+			put(setModalStatus(false)),
 		]);
 	} catch (error) {
 		const errors = error.response.data.errors;
@@ -63,6 +70,7 @@ function* editGroupSaga({ payload }) {
 			put(editGroup.success(response.data.group)),
 			put(successData(response.data.success)),
 			put(fetchAllGroups()),
+			put(setModalStatus(false)),
 		]);
 	} catch (error) {
 		const errors = error.response.data.errors;
@@ -75,7 +83,7 @@ function* editGroupSaga({ payload }) {
 function* fetchGroupByIdSaga({ payload }) {
 	try {
 		yield all([put(loadData.request()), put(fetchGroupById.request())]);
-		const response = yield axios.put(`/api/groups/${payload}`);
+		const response = yield axios.get(`/api/groups/${payload}`);
 		yield all([put(fetchGroupById.success(response.data))]);
 	} catch (error) {
 		const errors = error.response.data.errors;
@@ -87,13 +95,18 @@ function* fetchGroupByIdSaga({ payload }) {
 
 function* addGroupStudentsFromFileSaga({ payload }) {
 	try {
+		yield all([put(loadData.request()), put(addGroupStudentsFromFile.request())]);
 		const { groupId, data } = payload;
 		const response = yield axios.post(`/api/groups/${groupId}/file/students/`, data);
-		console.log(response);
+		yield all([
+			put(addGroupStudentsFromFile.success(response.data.group)),
+			put(successData(response.data.success)),
+		]);
 	} catch (error) {
 		const errors = error.response.data.errors;
-		console.log(errors);
+		yield all([put(errorData.trigger(errors))]);
 	} finally {
+		yield put(loadData.fulfill());
 	}
 }
 

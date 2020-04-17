@@ -1,13 +1,13 @@
 export const columns = [
-	{ title: '№ з/п', field: 'number' },
-	{ title: 'Прізвище, ім я, по батькові', field: 'name' },
+	{ title: '№ з/п', field: 'sequenceNumber' },
+	{ title: 'Прізвище, ім я, по батькові', field: 'fullName' },
 	{
 		title: 'Дата народження',
 		field: 'dateOfBirth',
 	},
 	{
 		title: 'РНОКПП',
-		field: 'inn',
+		field: 'personalTaxNumber',
 	},
 	{
 		title: 'Паспорт (серія, №)',
@@ -15,7 +15,7 @@ export const columns = [
 	},
 	{
 		title: 'Медична довідка (серія, №)',
-		field: 'medRef',
+		field: 'medSertificate',
 	},
 	{
 		title: 'Реєстрація місця проживання',

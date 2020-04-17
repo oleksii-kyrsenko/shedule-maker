@@ -139,9 +139,9 @@ export const DataTable = connect(
 							},
 						},
 					]}
-					onRowClick={(evt, selectedRow) =>
-						history.push(`${history.location.pathname}/${selectedRow._id}`)
-					}
+					onRowClick={(evt, selectedRow) => {
+						history.push(`${history.location.pathname}/${selectedRow._id}`);
+					}}
 					title={title}
 					columns={state.columns}
 					data={state.data}
