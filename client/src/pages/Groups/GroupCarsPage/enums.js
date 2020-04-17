@@ -1,3 +1,5 @@
+import { normalizeKey } from '../../../helpers/normalizeKey';
+
 export const columns = [
 	{ title: '№ з/п', field: 'sequenceNumber' },
 	{ title: 'Марка транспортного засобу', field: 'brand' },
@@ -27,12 +29,12 @@ export const columns = [
 export const title = 'Автомобілі';
 
 export const carKeys = (key) => {
-	switch (key.trim()) {
+	switch (normalizeKey(key)) {
 		case '№ п/п':
 			return 'sequenceNumber';
 		case 'Марка транспортного засобу':
 			return 'brand';
-		case 'Категорія  ТЗ':
+		case 'Категорія ТЗ':
 			return 'category';
 		case 'Належність (у разі оренди вказати орендодавця, номер договору оренди, його дату та на який термін укладено)':
 			return 'owner';

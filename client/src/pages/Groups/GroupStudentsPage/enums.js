@@ -1,3 +1,5 @@
+import { normalizeKey } from '../../../helpers/normalizeKey';
+
 export const columns = [
 	{ title: '№ з/п', field: 'sequenceNumber' },
 	{ title: 'Прізвище, ім’я, по батькові', field: 'fullName' },
@@ -26,7 +28,7 @@ export const columns = [
 export const title = 'Студенти';
 
 export const studentKeys = (key) => {
-	switch (key.trim()) {
+	switch (normalizeKey(key)) {
 		case '№ з/п':
 			return 'sequenceNumber';
 		case 'Прізвище, ім я, по батькові':

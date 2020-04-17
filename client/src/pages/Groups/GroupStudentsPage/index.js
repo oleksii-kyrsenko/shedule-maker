@@ -20,8 +20,6 @@ export const GroupStudentsPage = connect(
 
 	const [data, setData] = useState([]);
 
-	console.log(data);
-
 	useEffect(() => {
 		group && setData(group.students.sort((a, b) => a.sequenceNumber - b.sequenceNumber));
 	}, [group]);
