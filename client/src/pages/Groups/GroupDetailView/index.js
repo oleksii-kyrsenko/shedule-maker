@@ -13,6 +13,10 @@ import { GroupStudentsPage, GroupInstructorsPage, GroupCarsPage } from '../../';
 
 import { fetchGroupById } from '../routines';
 
+const mapStateToProps = (state) => ({
+	group: state.groupsReducer.group,
+});
+
 const actionCreators = { fetchGroupById };
 
 function TabPanel(props) {
@@ -44,9 +48,9 @@ function a11yProps(index) {
 }
 
 export const GroupDetailView = connect(
-	null,
+	mapStateToProps,
 	actionCreators
-)(({ fetchGroupById }) => {
+)(({ fetchGroupById, group }) => {
 	const classes = useStyles();
 	const theme = useTheme();
 	let { id } = useParams();
@@ -63,7 +67,7 @@ export const GroupDetailView = connect(
 	return (
 		<div className={classes.root}>
 			<Typography className={classes.title} component="h1" variant="h5" align="center">
-				Група №1
+				{group && `Група № ${group.number}`}
 			</Typography>
 			<AppBar className={classes.header} position="static" color="default">
 				<Tabs

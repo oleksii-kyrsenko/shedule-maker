@@ -23,6 +23,7 @@ export const ExelFileReader = ({ groupId, action, keys }) => {
 
 	useEffect(() => {
 		state.file && getFileData();
+		// eslint-disable-next-line
 	}, [state.file]);
 
 	const handleChange = (e) => {
