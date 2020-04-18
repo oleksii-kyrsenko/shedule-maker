@@ -37,10 +37,10 @@ function* createGroupSaga({ payload }) {
 		yield all([put(loadData.request()), put(createGroup.request())]);
 		const response = yield axios.post('/api/groups', payload);
 		yield all([
-			put(createGroup.success(response.data.group)),
-			put(successData(response.data.success)),
-			put(fetchAllGroups()),
 			put(setModalStatus(false)),
+			put(createGroup.success(response.data.group)),
+			put(fetchAllGroups()),
+			put(successData(response.data.success)),
 		]);
 	} catch (error) {
 		const errors = error.response.data.errors;
