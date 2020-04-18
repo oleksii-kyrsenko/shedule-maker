@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
 import { useStyles } from './styles';
 
-import { checkExtRegex, types, checkFileExtension } from '../../helpers/checkExtension';
+import { checkExtRegex, types, checkFileExtension } from '../../helpers/checkFileExtension';
 import { renameObjectKeys } from '../../helpers/renameObjectKeys';
 
 export const ExelFileReader = ({ groupId, action, keys }) => {
