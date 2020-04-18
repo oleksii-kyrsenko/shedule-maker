@@ -43,7 +43,7 @@ const actionCreators = {
 export const GroupForm = connect(
 	mapStateToProps,
 	actionCreators
-)(({ modalData, createGroup, editGroup, errorData, clearMessages, errorMessages }) => {
+)(({ modalData, createGroup, editGroup, errorData, clearMessages }) => {
 	const classes = useStyles();
 	const { register, errors, handleSubmit, reset, control } = useForm({
 		validationSchema: schema,
