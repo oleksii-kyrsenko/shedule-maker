@@ -12,4 +12,6 @@ export const normalizeSerial = (serial) =>
 		.filter((item) => item == 0 || !!item)
 		.join('');
 
+export const normalizeCategories = (categories) => categories;
+
 export const normalizeDate = (date) => new Date(date).toLocaleDateString();

@@ -11,13 +11,23 @@ import { useStyles } from './styles';
 import { connect } from 'react-redux';
 import { GroupStudentsPage, GroupInstructorsPage, GroupCarsPage } from '../../';
 
-import { fetchGroupById } from '../routines';
+import {
+	fetchGroupById,
+	addGroupCarsFromFile,
+	addGroupInstructorsFromFile,
+	addGroupStudentsFromFile,
+} from '../routines';
 
 const mapStateToProps = (state) => ({
 	group: state.groupsReducer.group,
 });
 
-const actionCreators = { fetchGroupById };
+const actionCreators = {
+	fetchGroupById,
+	addGroupCarsFromFile,
+	addGroupInstructorsFromFile,
+	addGroupStudentsFromFile,
+};
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -50,53 +60,84 @@ function a11yProps(index) {
 export const GroupDetailView = connect(
 	mapStateToProps,
 	actionCreators
-)(({ fetchGroupById, group }) => {
-	const classes = useStyles();
-	const theme = useTheme();
-	let { id } = useParams();
-	const [value, setValue] = useState(0);
+)(
+	({
+		fetchGroupById,
+		group,
+		addGroupCarsFromFile,
+		addGroupInstructorsFromFile,
+		addGroupStudentsFromFile,
+	}) => {
+		const classes = useStyles();
+		const theme = useTheme();
+		let { id } = useParams();
+		const [value, setValue] = useState(0);
+		const [data, setData] = useState({
+			students: [],
+			instructors: [],
+			cars: [],
+		});
 
-	useEffect(() => {
-		fetchGroupById(id);
-	}, [id, fetchGroupById]);
+		useEffect(() => {
+			fetchGroupById(id);
+		}, [id, fetchGroupById]);
 
-	const handleChange = (event, newValue) => {
-		setValue(newValue);
-	};
+		useEffect(() => {
+			group &&
+				setData((prev) => {
+					return {
+						...prev,
+						cars: group.cars.sort((a, b) => a.sequenceNumber - b.sequenceNumber),
+						instructors: group.instructors.sort((a, b) => a.sequenceNumber - b.sequenceNumber),
+						students: group.students.sort((a, b) => a.sequenceNumber - b.sequenceNumber),
+					};
+				});
+		}, [group]);
 
-	return (
-		<div className={classes.root}>
-			<Typography className={classes.title} component="h1" variant="h5" align="center">
-				{group && `Група № ${group.number}`}
-			</Typography>
-			<AppBar className={classes.header} position="static" color="default">
-				<Tabs
-					value={value}
-					onChange={handleChange}
-					indicatorColor="primary"
-					textColor="primary"
-					variant="fullWidth"
-					aria-label="full width tabs example">
-					<Tab label="Розклад" {...a11yProps(0)} />
-					<Tab label="Студенти" {...a11yProps(1)} />
-					<Tab label="Інтруктори" {...a11yProps(2)} />
-					<Tab label="Автомобілі" {...a11yProps(3)} />
-				</Tabs>
-			</AppBar>
-			<div>
-				<TabPanel value={value} index={0} dir={theme.direction}>
-					Shedule
-				</TabPanel>
-				<TabPanel value={value} index={1} dir={theme.direction}>
-					<GroupStudentsPage />
-				</TabPanel>
-				<TabPanel value={value} index={2} dir={theme.direction}>
-					<GroupInstructorsPage />
-				</TabPanel>
-				<TabPanel value={value} index={3} dir={theme.direction}>
-					<GroupCarsPage />
-				</TabPanel>
+		const handleChange = (event, newValue) => {
+			setValue(newValue);
+		};
+
+		return (
+			<div className={classes.root}>
+				<Typography className={classes.title} component="h1" variant="h5" align="center">
+					{group && `Група № ${group.number}`}
+				</Typography>
+				<AppBar className={classes.header} position="static" color="default">
+					<Tabs
+						value={value}
+						onChange={handleChange}
+						indicatorColor="primary"
+						textColor="primary"
+						variant="fullWidth"
+						aria-label="full width tabs example">
+						<Tab label="Розклад" {...a11yProps(0)} />
+						<Tab label="Студенти" {...a11yProps(1)} />
+						<Tab label="Інтруктори" {...a11yProps(2)} />
+						<Tab label="Автомобілі" {...a11yProps(3)} />
+					</Tabs>
+				</AppBar>
+				<div>
+					<TabPanel value={value} index={0} dir={theme.direction}>
+						Shedule
+					</TabPanel>
+					<TabPanel value={value} index={1} dir={theme.direction}>
+						<GroupStudentsPage
+							students={data.students}
+							actions={{ addFromFile: addGroupStudentsFromFile }}
+						/>
+					</TabPanel>
+					<TabPanel value={value} index={2} dir={theme.direction}>
+						<GroupInstructorsPage
+							instructors={data.instructors}
+							actions={{ addFromFile: addGroupInstructorsFromFile }}
+						/>
+					</TabPanel>
+					<TabPanel value={value} index={3} dir={theme.direction}>
+						<GroupCarsPage cars={data.cars} actions={{ addFromFile: addGroupCarsFromFile }} />
+					</TabPanel>
+				</div>
 			</div>
-		</div>
-	);
-});
+		);
+	}
+);
