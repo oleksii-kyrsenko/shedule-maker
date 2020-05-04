@@ -10,6 +10,7 @@ import Box from '@material-ui/core/Box';
 import { useStyles } from './styles';
 import { connect } from 'react-redux';
 import { GroupStudentsPage, GroupInstructorsPage, GroupCarsPage } from '../../';
+import { setModalStatus, setDialogStatus } from '../../../commons/routines';
 
 import {
 	fetchGroupById,
@@ -20,6 +21,9 @@ import {
 
 const mapStateToProps = (state) => ({
 	group: state.groupsReducer.group,
+	isLoading: state.commonsReducer.isLoading,
+	isModalOpen: state.commonsReducer.isModalOpen,
+	isDialogOpen: state.commonsReducer.isDialogOpen,
 });
 
 const actionCreators = {
@@ -27,6 +31,8 @@ const actionCreators = {
 	addGroupCarsFromFile,
 	addGroupInstructorsFromFile,
 	addGroupStudentsFromFile,
+	setModalStatus,
+	setDialogStatus,
 };
 
 function TabPanel(props) {
@@ -67,6 +73,11 @@ export const GroupDetailView = connect(
 		addGroupCarsFromFile,
 		addGroupInstructorsFromFile,
 		addGroupStudentsFromFile,
+		setModalStatus,
+		setDialogStatus,
+		isLoading,
+		isModalOpen,
+		isDialogOpen,
 	}) => {
 		const classes = useStyles();
 		const theme = useTheme();
@@ -125,16 +136,34 @@ export const GroupDetailView = connect(
 						<GroupStudentsPage
 							students={data.students}
 							actions={{ addFromFile: addGroupStudentsFromFile }}
+							isLoading={isLoading}
+							isDialogOpen={isDialogOpen}
+							isModalOpen={isModalOpen}
+							setModalStatus={setModalStatus}
+							setDialogStatus={setDialogStatus}
 						/>
 					</TabPanel>
 					<TabPanel value={value} index={2} dir={theme.direction}>
 						<GroupInstructorsPage
 							instructors={data.instructors}
 							actions={{ addFromFile: addGroupInstructorsFromFile }}
+							isLoading={isLoading}
+							isDialogOpen={isDialogOpen}
+							isModalOpen={isModalOpen}
+							setModalStatus={setModalStatus}
+							setDialogStatus={setDialogStatus}
 						/>
 					</TabPanel>
 					<TabPanel value={value} index={3} dir={theme.direction}>
-						<GroupCarsPage cars={data.cars} actions={{ addFromFile: addGroupCarsFromFile }} />
+						<GroupCarsPage
+							cars={data.cars}
+							actions={{ addFromFile: addGroupCarsFromFile }}
+							isLoading={isLoading}
+							isDialogOpen={isDialogOpen}
+							isModalOpen={isModalOpen}
+							setModalStatus={setModalStatus}
+							setDialogStatus={setDialogStatus}
+						/>
 					</TabPanel>
 				</div>
 			</div>

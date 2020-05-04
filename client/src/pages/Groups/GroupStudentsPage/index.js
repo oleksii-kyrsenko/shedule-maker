@@ -1,17 +1,36 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { DataTable } from '../../../components';
+import { DT } from '../../../components';
 import { ExelFileReader } from '../../../components';
+import { StudentForm } from './StudentForm';
 import { columns, title, studentKeys } from './enums';
 
-export const GroupStudentsPage = ({ addGroupStudentsFromFile, students, actions, ...rest }) => {
+export const GroupStudentsPage = ({
+	students,
+	actions,
+	isLoading,
+	isDialogOpen,
+	isModalOpen,
+	setModalStatus,
+	setDialogStatus,
+}) => {
 	let { id } = useParams();
 
 	const { addFromFile } = actions;
 
 	return (
-		<DataTable columns={columns} data={students} actions={() => {}} title={title}>
-			<ExelFileReader groupId={id} action={addFromFile} keys={studentKeys} />
-		</DataTable>
+			<DT
+				columns={columns}
+				data={students}
+				actions={() => {}}
+				title={title}
+				isLoading={isLoading}
+				isDialogOpen={isDialogOpen}
+				isModalOpen={isModalOpen}
+				setModalStatus={setModalStatus}
+				setDialogStatus={setDialogStatus}>
+				{/* <ExelFileReader groupId={id} action={addFromFile} keys={studentKeys} /> */}
+				<StudentForm/>
+			</DT>
 	);
 };

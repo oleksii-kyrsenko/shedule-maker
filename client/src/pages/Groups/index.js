@@ -3,13 +3,11 @@ import { connect } from 'react-redux';
 import Container from '@material-ui/core/Container';
 import { useStyles } from './styles';
 import { fetchAllGroups, deleteGroup, fetchGroupById } from './routines';
-import { DataTable } from '../../components';
 import { DT } from '../../components';
 import { GroupForm } from './GroupForm';
 import { columns, title } from './enums';
 import { normalizeDate } from '../../helpers/normalizeString';
-import { setModalStatus } from '../../commons/routines';
-import { setDialogStatus } from '../../commons/routines';
+import { setModalStatus, setDialogStatus } from '../../commons/routines';
 
 const mapStateToProps = (state) => ({
 	groups: state.groupsReducer.groups,

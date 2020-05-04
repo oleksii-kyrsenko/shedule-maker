@@ -4,10 +4,9 @@ import { Provider } from 'react-redux';
 import store from './store';
 import { Routes } from './routing';
 import { ToastContainer } from 'react-toastify';
-
 import { fetchAuthUser } from './pages/Auth/routines';
 import { setAuthToken } from './helpers/setAuthToken';
-import { Preloader, Notify, Navbar } from './commons';
+import { Notify, Navbar } from './commons';
 
 const App = () => {
 	setAuthToken(localStorage.token);
@@ -20,7 +19,6 @@ const App = () => {
 		<Provider store={store}>
 			<Router>
 				<Navbar />
-				{/* <Preloader /> */}
 				<Notify />
 				<Route component={Routes} />
 				<ToastContainer
