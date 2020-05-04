@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -34,7 +34,7 @@ const actionCreators = {
 	setModalStatus,
 };
 
-export const StudentForm = connect(
+export const EditForm = connect(
 	mapStateToProps,
 	actionCreators
 )(({ modalData, createGroup, editGroup, errorData, clearMessages }) => {
