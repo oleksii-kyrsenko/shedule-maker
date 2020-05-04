@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Link from '@material-ui/core/Link';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
@@ -19,6 +20,7 @@ import { setErrorsArray } from '../../helpers/setErrorsArray';
 
 const mapStateToProps = (state) => ({
 	isAuth: state.authReducer.isAuth,
+	isLoading: state.commonsReducer.isLoading,
 });
 
 const actionCreators = {
@@ -31,7 +33,7 @@ const actionCreators = {
 export const Auth = connect(
 	mapStateToProps,
 	actionCreators
-)(({ authUser, createUser, isAuth, errorData, clearMessages }) => {
+)(({ authUser, createUser, isAuth, errorData, clearMessages, isLoading }) => {
 	const classes = useStyles();
 	const history = useHistory();
 	const [authMode, setAuthMode] = useState(true);
@@ -65,75 +67,79 @@ export const Auth = connect(
 	};
 
 	return (
-		<Container component="main" maxWidth="xs" className={classes.root}>
-			<CssBaseline />
-			<div className={classes.paper}>
-				<Avatar className={classes.avatar}>
-					<LockOutlinedIcon />
-				</Avatar>
-				<Typography component="h1" variant="h5">
-					{!authMode ? 'Зареєструватися' : 'Увійти'}
-				</Typography>
-				<form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
-					<Grid container spacing={2}>
-						{!authMode && (
+		<>
+			{isLoading && <LinearProgress />}
+			<Container component="main" maxWidth="xs" className={classes.root}>
+				<CssBaseline />
+				<div className={classes.paper}>
+					<Avatar className={classes.avatar}>
+						<LockOutlinedIcon />
+					</Avatar>
+					<Typography component="h1" variant="h5">
+						{!authMode ? 'Зареєструватися' : 'Увійти'}
+					</Typography>
+					<form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
+						<Grid container spacing={2}>
+							{!authMode && (
+								<Grid item xs={12}>
+									<TextField
+										inputRef={register}
+										variant="outlined"
+										fullWidth
+										id="name"
+										name="name"
+										type="text"
+										label="Назва компанії"
+										error={!!errors.name}
+									/>
+								</Grid>
+							)}
 							<Grid item xs={12}>
 								<TextField
 									inputRef={register}
 									variant="outlined"
 									fullWidth
-									id="name"
-									name="name"
-									type="text"
-									label="Назва компанії"
-									error={!!errors.name}
+									id="email"
+									name="email"
+									type="email"
+									label="Електронна пошта"
+									error={!!errors.email}
 								/>
 							</Grid>
-						)}
-						<Grid item xs={12}>
-							<TextField
-								inputRef={register}
-								variant="outlined"
-								fullWidth
-								id="email"
-								name="email"
-								type="email"
-								label="Електронна пошта"
-								error={!!errors.email}
-							/>
+							<Grid item xs={12}>
+								<TextField
+									inputRef={register}
+									variant="outlined"
+									fullWidth
+									name="password"
+									type="password"
+									id="password"
+									label="Пароль"
+									error={!!errors.password}
+								/>
+							</Grid>
 						</Grid>
-						<Grid item xs={12}>
-							<TextField
-								inputRef={register}
-								variant="outlined"
-								fullWidth
-								name="password"
-								type="password"
-								id="password"
-								label="Пароль"
-								error={!!errors.password}
-							/>
+						<Button
+							disabled={isLoading}
+							type="submit"
+							fullWidth
+							variant="contained"
+							color="primary"
+							className={classes.submit}>
+							{!authMode ? 'Зареєструватися' : 'Увійти'}
+						</Button>
+						<Grid container justify="flex-end">
+							<Grid item>
+								<Link href="#" onClick={changeAuthModeHahdle}>
+									{authMode
+										? 'Не маєте облікового запису? Створити.'
+										: 'Маєте обліковий запис? Увійти.'}
+								</Link>
+							</Grid>
 						</Grid>
-					</Grid>
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						color="primary"
-						className={classes.submit}>
-						{!authMode ? 'Зареєструватися' : 'Увійти'}
-					</Button>
-					<Grid container justify="flex-end">
-						<Grid item>
-							<Link href="#" onClick={changeAuthModeHahdle}>
-								{authMode
-									? 'Не маєте облікового запису? Створити.'
-									: 'Маєте обліковий запис? Увійти.'}
-							</Link>
-						</Grid>
-					</Grid>
-				</form>
-			</div>
-		</Container>
+					</form>
+				</div>
+			</Container>
+		</>
 	);
 });

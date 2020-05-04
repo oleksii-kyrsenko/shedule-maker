@@ -20,7 +20,7 @@ const App = () => {
 		<Provider store={store}>
 			<Router>
 				<Navbar />
-				<Preloader />
+				{/* <Preloader /> */}
 				<Notify />
 				<Route component={Routes} />
 				<ToastContainer
