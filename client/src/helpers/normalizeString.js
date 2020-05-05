@@ -3,7 +3,7 @@ export const normalizeKey = (key) =>
 		.trim()
 		.split(' ')
 		// eslint-disable-next-line
-		.filter((item) => item == 0 || !!item)
+		.filter((item) => !!item)
 		.join(' ');
 
 export const normalizeSerial = (serial) =>
@@ -11,7 +11,7 @@ export const normalizeSerial = (serial) =>
 		.trim()
 		.split(' ')
 		// eslint-disable-next-line
-		.filter((item) => item == 0 || !!item)
+		.filter((item) => !!item)
 		.join('');
 
 export const normalizeCategories = (categories) => categories;

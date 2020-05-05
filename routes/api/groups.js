@@ -266,7 +266,11 @@ router.post('/:groupId/file/students/', auth, async (req, res) => {
 		);
 
 		newStudents = newStudents.map((item) => {
-			return { ...item, user: req.user.id };
+			return {
+				...item,
+				user: req.user.id,
+				dateOfBirth: item.dateOfBirth.split('.').reverse().join('-'),
+			};
 		});
 
 		newStudents = await Student.insertMany(newStudents);

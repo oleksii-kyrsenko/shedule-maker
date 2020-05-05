@@ -4,6 +4,8 @@ import { DT } from '../../../components';
 import { StudentForm } from './StudentForm';
 import { Multiform } from '../../../commons';
 import { columns, title, studentKeys } from './enums';
+import { normalizeDate } from '../../../helpers/normalizeString';
+
 export const GroupStudentsPage = ({
 	students,
 	actions,
@@ -16,6 +18,8 @@ export const GroupStudentsPage = ({
 	let { id } = useParams();
 
 	const { addFromFile } = actions;
+
+	students.map((item) => (item.dateOfBirth = normalizeDate(item.dateOfBirth)))
 
 	return (
 		<DT

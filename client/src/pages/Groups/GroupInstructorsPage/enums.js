@@ -31,7 +31,9 @@ export const columns = [
 		title: 'Стаж водія',
 		field: 'experience',
 	},
-];
+].map((item) => {
+	return { ...item, disableClick: true };
+});
 
 export const title = 'Інструктори';
 

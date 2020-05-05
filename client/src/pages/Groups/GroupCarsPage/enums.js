@@ -4,7 +4,7 @@ export const columns = [
 	{ title: '№ з/п', field: 'sequenceNumber' },
 	{ title: 'Марка транспортного засобу', field: 'brand' },
 	{
-		title: ' Категорія ТЗ',
+		title: 'Категорія ТЗ',
 		field: 'category',
 	},
 	{
@@ -24,11 +24,14 @@ export const columns = [
 		title: 'Рік випуску',
 		field: 'year',
 	},
-];
+].map((item) => {
+	return { ...item, disableClick: true };
+});
 
 export const title = 'Автомобілі';
 
 export const carKeys = (key) => {
+	
 	switch (normalizeKey(key)) {
 		case '№ п/п':
 			return 'sequenceNumber';

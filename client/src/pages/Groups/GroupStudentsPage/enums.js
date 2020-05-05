@@ -23,7 +23,9 @@ export const columns = [
 		title: 'Реєстрація місця проживання',
 		field: 'adress',
 	},
-];
+].map((item) => {
+	return { ...item, disableClick: true };
+});
 
 export const title = 'Студенти';
 
