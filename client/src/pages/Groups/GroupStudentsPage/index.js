@@ -17,8 +17,6 @@ export const GroupStudentsPage = ({
 
 	const { addFromFile } = actions;
 
-	console.log(students);
-
 	return (
 		<DT
 			columns={columns}

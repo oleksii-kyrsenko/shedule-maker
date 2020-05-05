@@ -4,6 +4,8 @@ import { DT } from '../../../components';
 import { columns, title, instructorKeys } from './enums';
 import { Multiform } from '../../../commons';
 import { InstructorForm } from './InstructorForm';
+import { normalizeDate } from '../../../helpers/normalizeString';
+
 
 export const GroupInstructorsPage = ({
 	instructors,
@@ -18,9 +20,7 @@ export const GroupInstructorsPage = ({
 
 	const { addFromFile } = actions;
 
-	console.log(instructors);
-
-	instructors.map((item) => (item.dateOfBirth = new Date(item.dateOfBirth).toLocaleDateString()));
+	instructors.map((item) => (item.dateOfBirth = normalizeDate(item.dateOfBirth)))
 
 	return (
 		<DT
