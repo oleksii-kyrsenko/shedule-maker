@@ -78,7 +78,8 @@ export const ExelFileReader = ({ groupId, action, keys }) => {
 	};
 
 	const onSubmit = () => {
-		const payload = { groupId, data: state.data };
+		let payload;
+		groupId ? (payload = { groupId, data: state.data }) : (payload = { data: state.data });
 		action(payload);
 	};
 

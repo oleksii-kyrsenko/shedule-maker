@@ -14,7 +14,9 @@ export const GroupCarsPage = ({
 	setDialogStatus,
 }) => {
 	let { id } = useParams();
+
 	const { addFromFile } = actions;
+
 	return (
 		<DT
 			columns={columns}
@@ -26,7 +28,6 @@ export const GroupCarsPage = ({
 			isModalOpen={isModalOpen}
 			setModalStatus={setModalStatus}
 			setDialogStatus={setDialogStatus}>
-			>
 			<ExelFileReader groupId={id} action={addFromFile} keys={carKeys} />
 		</DT>
 	);

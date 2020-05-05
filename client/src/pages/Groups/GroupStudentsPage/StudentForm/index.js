@@ -4,14 +4,13 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import { ExelFileReader } from '../../../../components';
-import { EditForm } from '../EditForm';
 
-export const StudentForm = ({ modalData, groupId, action, keys }) => {
+export const StudentForm = ({ modalData, groupId, action, keys, DefaultForm }) => {
 	const [mode, setMode] = useState(null);
 	return (
 		<Container component="main" maxWidth="xs">
 			<CssBaseline />
-			{!mode && <EditForm modalData={modalData} />}
+			{!mode && <DefaultForm modalData={modalData} />}
 			{mode === 'fromFile' && <ExelFileReader groupId={groupId} action={action} keys={keys} />}
 			{!modalData && (
 				<Grid container justify="flex-end">
@@ -22,7 +21,7 @@ export const StudentForm = ({ modalData, groupId, action, keys }) => {
 							</Link>
 						</Grid>
 					)}
-					{mode !== 'fromExistings' && (
+					{mode !== 'fromExistings' && groupId && (
 						<Grid item xs={12}>
 							<Link href="#" onClick={() => setMode('fromExistings')}>
 								Додати з існуючих
