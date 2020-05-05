@@ -10,11 +10,7 @@ function* authUserSaga({ payload }) {
 		const response = yield axios.post('/api/auth', payload);
 		const { token, success } = response.data;
 		setAuthToken(token);
-		yield all([
-			put(authUser.success({ token })),
-			put(fetchAuthUser()),
-			put(successData( success )),
-		]);
+		yield all([put(authUser.success({ token })), put(fetchAuthUser()), put(successData(success))]);
 	} catch (error) {
 		const errors = error.response.data.errors;
 		yield all([put(errorData.trigger(errors)), put(authUser.failure()), put(loadData.fulfill())]);
@@ -31,7 +27,9 @@ function* fetchAuthUserSaga() {
 		const errors = error.response.data.errors;
 		yield all([put(errorData.trigger(errors)), put(fetchAuthUser.failure())]);
 	} finally {
-		yield all([put(loadData.fulfill()), put(clearMessages.trigger())]);
+		yield all([
+			// put(loadData.fulfill()), 
+			put(clearMessages.trigger())]);
 	}
 }
 
@@ -41,7 +39,11 @@ function* createUserSaga({ payload }) {
 		const response = yield axios.post('/api/users', payload);
 		const { token, success } = response.data;
 		setAuthToken(token);
-		yield all([put(createUser.success({ token })), put(fetchAuthUser()),put(successData( success )),]);
+		yield all([
+			put(createUser.success({ token })),
+			put(fetchAuthUser()),
+			put(successData(success)),
+		]);
 	} catch (error) {
 		const errors = error.response.data.errors;
 		yield all([put(errorData.trigger(errors)), put(createUser.failure()), put(loadData.fulfill())]);

@@ -9,8 +9,5 @@ export const useStyles = makeStyles((theme) => {
 		title: {
 			padding: theme.spacing(0, 0, 0),
 		},
-		body: {
-			padding: theme.spacing(0, 0, 0),
-		},
 	};
 });
