@@ -18,6 +18,10 @@ export const GroupInstructorsPage = ({
 
 	const { addFromFile } = actions;
 
+	console.log(instructors);
+
+	instructors.map((item) => (item.dateOfBirth = new Date(item.dateOfBirth).toLocaleDateString()));
+
 	return (
 		<DT
 			columns={columns}
