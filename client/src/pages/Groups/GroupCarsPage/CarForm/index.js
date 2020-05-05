@@ -12,12 +12,12 @@ import { setModalStatus, errorData, clearMessages } from '../../../../commons/ro
 import { createGroup, editGroup } from '../../routines';
 
 const schema = yup.object().shape({
-	adress: yup.string().required('Adress is required'),
-	fullName: yup.string().required('Name is required'),
-	medSertificate: yup.string().required('MedSertificate is required'),
-	passport: yup.string().required('Passport date is required'),
-	dateOfBirth: yup.string().required('DateOfBirth is required'),
-	// personalTaxNumber: yup.string().required('PersonalTaxNumber is required'),
+	brand: yup.string().required('brand is required'),
+	category: yup.string().required('category is required'),
+	owner: yup.string().required('owner is required'),
+	number: yup.string().required('number date is required'),
+	protocol: yup.string().required('protocol is required'),
+	year: yup.string().required('year is required'),
 });
 
 const mapStateToProps = (state) => ({
@@ -34,7 +34,7 @@ const actionCreators = {
 	setModalStatus,
 };
 
-export const EditForm = connect(
+export const CarForm = connect(
 	mapStateToProps,
 	actionCreators
 )(({ modalData, createGroup, editGroup, errorData, clearMessages }) => {
@@ -46,12 +46,12 @@ export const EditForm = connect(
 	useEffect(() => {
 		modalData &&
 			reset({
-				fullName: modalData.fullName,
-				dateOfBirth: modalData.dateOfBirth.split('.').reverse().join('-'),
-				passport: modalData.passport,
-				personalTaxNumber: modalData.personalTaxNumber,
-				medSertificate: modalData.medSertificate,
-				adress: modalData.adress,
+				brand: modalData.brand,
+				category: modalData.category,
+				owner: modalData.owner,
+				number: modalData.number,
+				protocol: modalData.protocol,
+				year: modalData.year,
 			});
 	}, [reset, modalData]);
 
@@ -69,7 +69,7 @@ export const EditForm = connect(
 	return (
 		<div className={classes.paper}>
 			<Typography component="h1" variant="h5" className={classes.title}>
-				{modalData ? 'Редагувати студента' : 'Додати студента'}
+				{modalData ? 'Редагувати автомобіль' : 'Додати автомобіль'}
 			</Typography>
 			<form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
 				<Grid container spacing={2}>
@@ -78,26 +78,24 @@ export const EditForm = connect(
 							inputRef={register}
 							variant="outlined"
 							fullWidth
-							id="fullName"
-							name="fullName"
+							id="brand"
+							name="brand"
 							type="text"
-							label="П.І.Б"
-							error={!!errors.fullName}
+							label="Марка автомобіля"
+							error={!!errors.brand}
 						/>
 					</Grid>
+
 					<Grid item xs={12}>
 						<TextField
 							inputRef={register}
-							fullWidth
-							id="dateOfBirth"
-							label="Дата народження"
-							type="date"
-							name="dateOfBirth"
-							InputLabelProps={{
-								shrink: true,
-							}}
 							variant="outlined"
-							error={!!errors.dateOfBirth}
+							fullWidth
+							id="category"
+							name="category"
+							type="text"
+							label="Категорія"
+							error={!!errors.category}
 						/>
 					</Grid>
 					<Grid item xs={12}>
@@ -105,49 +103,49 @@ export const EditForm = connect(
 							inputRef={register}
 							variant="outlined"
 							fullWidth
-							id="passport"
-							name="passport"
-							type="text"
-							label="Серія та номер паспорту"
-							error={!!errors.passport}
-						/>
-					</Grid>
-					<Grid item xs={12}>
-						<TextField
-							inputRef={register}
-							variant="outlined"
-							fullWidth
-							id="personalTaxNumber"
-							name="personalTaxNumber"
-							type="text"
-							label="Ідентифікаційний номер"
-							error={!!errors.personalTaxNumber}
-						/>
-					</Grid>
-					<Grid item xs={12}>
-						<TextField
-							inputRef={register}
-							variant="outlined"
-							fullWidth
-							id="medSertificate"
-							name="medSertificate"
-							type="text"
-							label="Медична довідка"
-							error={!!errors.medSertificate}
-						/>
-					</Grid>
-					<Grid item xs={12}>
-						<TextField
-							inputRef={register}
-							id="adress"
-							name="adress"
-							type="text"
-							label="Адреса"
 							multiline
-							fullWidth
-							rows={3}
+							rows={2}
+							id="owner"
+							name="owner"
+							type="text"
+							label="Власник"
+							error={!!errors.owner}
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<TextField
+							inputRef={register}
 							variant="outlined"
-							error={!!errors.adress}
+							fullWidth
+							id="number"
+							name="number"
+							type="text"
+							label="Номер"
+							error={!!errors.number}
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<TextField
+							inputRef={register}
+							id="protocol"
+							name="protocol"
+							type="text"
+							label="Протокол перевірки"
+							fullWidth
+							variant="outlined"
+							error={!!errors.protocol}
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<TextField
+							inputRef={register}
+							id="year"
+							name="year"
+							type="text"
+							label="Рік випуску"
+							fullWidth
+							variant="outlined"
+							error={!!errors.year}
 						/>
 					</Grid>
 				</Grid>

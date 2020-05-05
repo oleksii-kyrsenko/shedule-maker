@@ -1,8 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { DT } from '../../../components';
-import { ExelFileReader } from '../../../components';
 import { columns, title, instructorKeys } from './enums';
+import { Multiform } from '../../../commons';
+import { InstructorForm } from './InstructorForm';
 
 export const GroupInstructorsPage = ({
 	instructors,
@@ -28,7 +29,12 @@ export const GroupInstructorsPage = ({
 			isModalOpen={isModalOpen}
 			setModalStatus={setModalStatus}
 			setDialogStatus={setDialogStatus}>
-			<ExelFileReader groupId={id} action={addFromFile} keys={instructorKeys} />
+			<Multiform
+				groupId={id}
+				action={addFromFile}
+				keys={instructorKeys}
+				DefaultForm={InstructorForm}
+			/>
 		</DT>
 	);
 };

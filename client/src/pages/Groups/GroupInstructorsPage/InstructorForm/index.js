@@ -12,12 +12,14 @@ import { setModalStatus, errorData, clearMessages } from '../../../../commons/ro
 import { createGroup, editGroup } from '../../routines';
 
 const schema = yup.object().shape({
-	adress: yup.string().required('Adress is required'),
+	atestat: yup.string().required('atestat is required'),
 	fullName: yup.string().required('Name is required'),
-	medSertificate: yup.string().required('MedSertificate is required'),
-	passport: yup.string().required('Passport date is required'),
+	healthBook: yup.string().required('healthBook is required'),
+	experience: yup.string().required('experience date is required'),
 	dateOfBirth: yup.string().required('DateOfBirth is required'),
-	// personalTaxNumber: yup.string().required('PersonalTaxNumber is required'),
+	drivingLicense: yup.string().required('drivingLicense is required'),
+	skills: yup.string().required('skills is required'),
+	education: yup.string().required('education is required'),
 });
 
 const mapStateToProps = (state) => ({
@@ -34,7 +36,7 @@ const actionCreators = {
 	setModalStatus,
 };
 
-export const StudentForm = connect(
+export const InstructorForm = connect(
 	mapStateToProps,
 	actionCreators
 )(({ modalData, createGroup, editGroup, errorData, clearMessages }) => {
@@ -48,10 +50,12 @@ export const StudentForm = connect(
 			reset({
 				fullName: modalData.fullName,
 				dateOfBirth: modalData.dateOfBirth.split('.').reverse().join('-'),
-				passport: modalData.passport,
-				personalTaxNumber: modalData.personalTaxNumber,
-				medSertificate: modalData.medSertificate,
-				adress: modalData.adress,
+				atestat: modalData.atestat,
+				healthBook: modalData.healthBook,
+				experience: modalData.experience,
+				drivingLicense: modalData.drivingLicense,
+				skills: modalData.skills,
+				education: modalData.education,
 			});
 	}, [reset, modalData]);
 
@@ -69,7 +73,7 @@ export const StudentForm = connect(
 	return (
 		<div className={classes.paper}>
 			<Typography component="h1" variant="h5" className={classes.title}>
-				{modalData ? 'Редагувати студента' : 'Додати студента'}
+				{modalData ? 'Редагувати інструктора' : 'Додати інструктора'}
 			</Typography>
 			<form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
 				<Grid container spacing={2}>
@@ -105,11 +109,13 @@ export const StudentForm = connect(
 							inputRef={register}
 							variant="outlined"
 							fullWidth
-							id="passport"
-							name="passport"
+							multiline
+							rows={2}
+							id="atestat"
+							name="atestat"
 							type="text"
-							label="Серія та номер паспорту"
-							error={!!errors.passport}
+							label="Атестат"
+							error={!!errors.atestat}
 						/>
 					</Grid>
 					<Grid item xs={12}>
@@ -117,11 +123,11 @@ export const StudentForm = connect(
 							inputRef={register}
 							variant="outlined"
 							fullWidth
-							id="personalTaxNumber"
-							name="personalTaxNumber"
+							id="experience"
+							name="experience"
 							type="text"
-							label="Ідентифікаційний номер"
-							error={!!errors.personalTaxNumber}
+							label="Досвід"
+							error={!!errors.experience}
 						/>
 					</Grid>
 					<Grid item xs={12}>
@@ -129,25 +135,49 @@ export const StudentForm = connect(
 							inputRef={register}
 							variant="outlined"
 							fullWidth
-							id="medSertificate"
-							name="medSertificate"
+							id="healthBook"
+							name="healthBook"
 							type="text"
-							label="Медична довідка"
-							error={!!errors.medSertificate}
+							label="Медична книжка"
+							error={!!errors.healthBook}
 						/>
 					</Grid>
 					<Grid item xs={12}>
 						<TextField
 							inputRef={register}
-							id="adress"
-							name="adress"
+							id="drivingLicense"
+							name="drivingLicense"
 							type="text"
-							label="Адреса"
+							label="Посвідчення водія"
+							fullWidth
+							variant="outlined"
+							error={!!errors.drivingLicense}
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<TextField
+							inputRef={register}
+							id="skills"
+							name="skills"
+							type="text"
+							label="Вид підготовки"
 							multiline
 							fullWidth
-							rows={3}
+							rows={2}
 							variant="outlined"
-							error={!!errors.adress}
+							error={!!errors.skills}
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<TextField
+							inputRef={register}
+							id="education"
+							name="education"
+							type="text"
+							label="Освіта"
+							fullWidth
+							variant="outlined"
+							error={!!errors.education}
 						/>
 					</Grid>
 				</Grid>

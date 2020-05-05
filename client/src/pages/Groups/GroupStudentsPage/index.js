@@ -2,8 +2,8 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { DT } from '../../../components';
 import { StudentForm } from './StudentForm';
+import { Multiform } from '../../../commons';
 import { columns, title, studentKeys } from './enums';
-import { EditForm } from './EditForm';
 export const GroupStudentsPage = ({
 	students,
 	actions,
@@ -28,7 +28,7 @@ export const GroupStudentsPage = ({
 			isModalOpen={isModalOpen}
 			setModalStatus={setModalStatus}
 			setDialogStatus={setDialogStatus}>
-			<StudentForm groupId={id} action={addFromFile} keys={studentKeys} DefaultForm={EditForm} />
+			<Multiform groupId={id} action={addFromFile} keys={studentKeys} DefaultForm={StudentForm} />
 		</DT>
 	);
 };

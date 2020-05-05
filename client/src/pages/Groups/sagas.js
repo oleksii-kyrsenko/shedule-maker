@@ -97,7 +97,11 @@ function* fetchGroupByIdSaga({ payload }) {
 
 function* addGroupStudentsFromFileSaga({ payload }) {
 	try {
-		yield all([put(loadData.request()), put(addGroupStudentsFromFile.request())]);
+		yield all([
+			put(clearMessages()),
+			put(loadData.request()),
+			put(addGroupStudentsFromFile.request()),
+		]);
 		const { groupId, data } = payload;
 		const response = yield axios.post(`/api/groups/${groupId}/file/students/`, data);
 		yield all([
